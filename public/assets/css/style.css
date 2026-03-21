@@ -1,0 +1,202 @@
+/* ==========================================================================
+	#General
+========================================================================== */
+#pjWrapper .pjCrContainer { padding: 15px; }
+#pjWrapper .pjCrMinSize340 { min-width: 340px; }
+#pjWrapper .pjCrVerticalTop { vertical-align: top; }
+#pjWrapper .pjCrCursorPointer { cursor: pointer; }
+#pjWrapper .pjCrSize1of5 { width: 20% !important; }
+#pjWrapper select.form-control { cursor: pointer; }
+
+/* ==========================================================================
+	#Buttons
+========================================================================== */
+#pjWrapper .pjCrBtnAdd { padding: 6px 8px; }
+
+#pjWrapper .pjCrBtnActive,
+#pjWrapper .pjCrNav .pjCrBtnActive,
+#pjWrapper .pjCrLanguage .pjCrBtnActive { color: #337ab7; }
+
+/* ==========================================================================
+	#Forms
+========================================================================== */
+#pjWrapper .form-group.has-error { position: relative; }
+#pjWrapper .help-block,
+#pjWrapper .help-block * { margin: 0; }
+#pjWrapper .help-block { position: absolute; bottom: -15px; left: 0; overflow: hidden; max-width: 100%; }
+#pjWrapper .help-block li { overflow: hidden; max-width: 100%; font-size: 12px; white-space: nowrap; -ms-text-overflow: ellipsis; text-overflow: ellipsis; }
+#pjWrapper .form-group.has-error .row { position: relative; max-width: 100%; }
+#pjWrapper .form-group .row .help-block { bottom: -15px; left: 15px; }
+
+/* ==========================================================================
+	#pjCrProgresbarNav
+========================================================================== */
+#pjWrapper .pjCrProgresbarNav { display: inline-block; width: 636px; padding: 0 10px; }
+#pjWrapper .pjCrProgressBar { border-right: 1px solid; }
+#pjWrapper .pjCrProgressBar:last-of-type { border-right: 0; }
+#pjWrapper .pjCrProgressSm { height: 10px; margin-bottom: 0; }
+#pjWrapper .pjCrProgresbarNav .pjCrBtnSm { padding: 5px; }
+#pjWrapper .pjCrProgresbarNav .nav .active a { background-color: #eee; color: #333; }
+
+/* ==========================================================================
+	#pjCrNav
+========================================================================== */
+#pjWrapper .pjCrNav .pjCrBtn { text-align: left; }
+#pjWrapper .pjCrNav .pjCrBtnNav .caret { -webkit-transition: all .5s ease-in-out; -moz-transition: all .5s ease-in-out; -ms-transition: all .5s ease-in-out; -o-transition: all .5s ease-in-out; transition: all .5s ease-in-out; }
+#pjWrapper .pjCrNav.open .pjCrBtnNav .caret { -webkit-transform: rotate(180deg); -ms-transform: rotate(180deg); -o-transform: rotate(180deg); transform: rotate(180deg); }
+
+/* ==========================================================================
+	#pjCrLanguage
+========================================================================== */
+#pjWrapper .pjCrLanguage { float: right; }
+#pjWrapper .pjCrLanguage .pjCrBtnNav .caret { -webkit-transition: all .5s ease-in-out; -moz-transition: all .5s ease-in-out; -ms-transition: all .5s ease-in-out; -o-transition: all .5s ease-in-out; transition: all .5s ease-in-out; }
+#pjWrapper .pjCrLanguage.open .pjCrBtnNav .caret { -webkit-transform: rotate(180deg); -ms-transform: rotate(180deg); -o-transform: rotate(180deg); transform: rotate(180deg); }
+
+#pjWrapper .pjCrLanguage .dropdown-menu { right: 0; left: auto; }
+
+/* ==========================================================================
+	#pjCrTimePicker
+========================================================================== */
+#pjWrapper .pjCrTimePicker .bootstrap-datetimepicker-widget { max-width: 100%; }
+#pjWrapper .pjCrTimePicker .bootstrap-datetimepicker-widget td,
+#pjWrapper .pjCrTimePicker .bootstrap-datetimepicker-widget td span { width: 34px; height: 34px; line-height: 34px; }
+#pjWrapper .pjCrTimePicker .bootstrap-datetimepicker-widget td .btn { padding: 0; }
+#pjWrapper .pjCrTimePicker .bootstrap-datetimepicker-widget td .btn-primary { padding: 6px; }
+
+/* ==========================================================================
+	#Pannels
+========================================================================== */
+#pjWrapper .pjCrPanelLeft { min-width: 280px; }
+#pjWrapper .pjCrPanelRight { min-width: 520px; }
+
+/* ==========================================================================
+	#Products
+========================================================================== */
+#pjWrapper .pjCrProduct { padding: 15px; margin-bottom: 20px; }
+#pjWrapper .pjCrProduct .well p:last-of-type { padding-bottom: 0; margin-bottom: 0; }
+#pjWrapper .pjCrProduct .pjCrBgPrimary { line-height: 21px; margin-bottom: 3px; }
+#pjWrapper .pjCrProduct .pjCrBtntDefault { padding: 6px 0; }
+
+/* ==========================================================================
+	#pjCrMultiplierDropdown
+========================================================================== */
+#pjWrapper .pjCrMultiplierDropdown { display: inline-block; vertical-align: middle; }
+#pjWrapper .pjCrMultiplierDropdown .form-control { display: inline-block; padding: 0; }
+#pjWrapper .pjCrMultiplierDropdown .input-group-addon { padding: 6px 8px; }
+
+/* ==========================================================================
+	#pjCrCaptcha
+========================================================================== */
+#pjWrapper .pjCrCaptcha .help-block { float: left; width: 100%; padding-left: 15px; }
+
+.modal-backdrop.fade {
+	opacity: 0 !important;
+	filter: alpha(opacity=0)  !important;
+}
+.modal-backdrop.fade.in {
+	opacity: 0.5  !important;
+	filter: alpha(opacity=50)  !important;
+}
+
+/* ==========================================================================
+	#Responsive
+========================================================================== */
+@media only screen and ( max-width: 1051px ) {
+	/* ==========================================================================
+		#Pannels
+	========================================================================== */
+	#pjWrapper .pjCrPanelLeft { min-width: 1px; }
+	#pjWrapper .pjCrPanelRight { min-width: 1px; }
+}
+
+@media only screen and ( max-width: 890px ) {
+	/* ==========================================================================
+		#pjCrProgresbarNav
+	========================================================================== */
+	#pjWrapper .pjCrProgresbarNav { overflow: hidden; }
+
+	/* ==========================================================================
+		#pjCrLanguage
+	========================================================================== */
+	#pjWrapper .pjCrLanguage { float: right; }
+}
+
+@media only screen and ( max-width: 767px ) {
+	/* ==========================================================================
+		#pjCrProgresbarNav
+	========================================================================== */
+	#pjWrapper .pjCrProgresbarNav { width: 100%; }
+	#pjWrapper .pjCrProgresbarNav .nav-justified > li { float: left; }
+
+	/* ==========================================================================
+		#pjCrProducts
+	========================================================================== */
+	#pjWrapper .pjCrProduct .col-xs-12 { width: 45%; }
+	#pjWrapper .pjCrProduct .col-xs-12:first-of-type { width: 25%; }
+	#pjWrapper .pjCrProduct .col-xs-12:last-of-type { width: 30%; }
+
+	/* ==========================================================================
+		#pjCrProductExtra
+	========================================================================== */
+	#pjWrapper .pjCrProductExtra .col-xs-5 { width: 33%; }
+	#pjWrapper .pjCrProductExtra .col-xs-7 { width: 40%; }
+	#pjWrapper .pjCrProductExtra .col-xs-12:last-of-type { width: 27%; text-align: right; }
+
+	/* ==========================================================================
+		#pjCrHeading
+	========================================================================== */
+	#pjWrapper .pjCrHeading .col-xs-12 { width: 50%; }
+}
+
+@media only screen and ( max-width: 670px ) {
+	/* ==========================================================================
+		#pjCrProgresbarNav
+	========================================================================== */
+	#pjWrapper .pjCrProgresbarNav .nav > li { display: none; }
+	#pjWrapper .pjCrProgresbarNav .nav > .active { display: block; }
+}
+
+@media only screen and ( max-width: 470px ) {
+	/* ==========================================================================
+		#pjCrProducts
+	========================================================================== */
+	#pjWrapper .pjCrProduct .col-xs-12,
+	#pjWrapper .pjCrProduct .col-xs-12:first-of-type { width: 100%; }
+	#pjWrapper .pjCrProduct .col-xs-12:last-of-type { width: 250px; }
+	#pjWrapper .pjCrProduct .col-xs-12:last-of-type .well { width: 50%; margin: 0 auto 20px; }
+}
+
+@media only screen and ( max-width: 470px ) {
+	/* ==========================================================================
+		#pjCrProductExtra
+	========================================================================== */
+	#pjWrapper .pjCrProductExtra .col-xs-5 { width: 35%; }
+	#pjWrapper .pjCrProductExtra .col-xs-7 { width: 65%; }
+	#pjWrapper .pjCrProductExtra .col-xs-12,
+	#pjWrapper .pjCrProductExtra .col-xs-12:last-of-type { width: 100%; }
+	#pjWrapper .pjCrProductExtra h5 { text-align: left; }
+	#pjWrapper .pjCrProductExtra .col-xs-12:last-of-type { text-align: center; }
+}
+
+@media only screen and ( max-width: 390px ) {
+	/* ==========================================================================
+		#General
+	========================================================================== */
+	#pjWrapper .pjCrMinSize340 { min-width: 1px; }
+
+	/* ==========================================================================
+		#pjCrForm
+	========================================================================== */
+	#pjWrapper .pjCrFormGroup .col-xs-6 { width: 100%; }
+
+	/* ==========================================================================
+		#pjCrTimePicker
+	========================================================================== */
+	#pjWrapper .pjCrTimePicker { padding-top: 10px; }
+
+	/* ==========================================================================
+		#pjCrHeading
+	========================================================================== */
+	#pjWrapper .pjCrHeading .col-xs-12 { width: 100%; }
+	#pjWrapper .pjCrLanguage { float: left; margin-top: 15px; }
+}

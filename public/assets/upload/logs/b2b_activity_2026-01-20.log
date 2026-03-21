@@ -1,0 +1,23 @@
+{"timestamp":"2026-01-20 09:22:56","action":"login_failed","partner_id":0,"user_id":null,"ip":"172.20.0.1","data":{"username":"test","reason":"user_not_found"}}
+{"timestamp":"2026-01-20 09:23:04","action":"login_failed","partner_id":0,"user_id":null,"ip":"172.20.0.1","data":{"username":"test","reason":"user_not_found"}}
+{"timestamp":"2026-01-20 09:23:25","action":"login_failed","partner_id":0,"user_id":null,"ip":"172.20.0.1","data":{"username":"1111","reason":"user_not_found"}}
+{"timestamp":"2026-01-20 09:23:46","action":"login_failed","partner_id":0,"user_id":null,"ip":"172.20.0.1","data":{"username":"support@tangram-studio.com","reason":"user_not_found"}}
+{"timestamp":"2026-01-20 09:26:35","action":"login_failed","partner_id":0,"user_id":null,"ip":"172.20.0.1","data":{"username":"support@tangram-studio.com","reason":"user_not_found"}}
+{"timestamp":"2026-01-20 09:28:38","action":"login_rate_limited","partner_id":0,"user_id":null,"ip":"172.20.0.1","data":{"username":"support@tangram-studio.com","ip":"172.20.0.1","wait_minutes":10}}
+{"timestamp":"2026-01-20 09:28:40","action":"login_rate_limited","partner_id":0,"user_id":null,"ip":"172.20.0.1","data":{"username":"support@tangram-studio.com","ip":"172.20.0.1","wait_minutes":10}}
+{"timestamp":"2026-01-20 09:28:41","action":"login_rate_limited","partner_id":0,"user_id":null,"ip":"172.20.0.1","data":{"username":"support@tangram-studio.com","ip":"172.20.0.1","wait_minutes":10}}
+{"timestamp":"2026-01-20 09:28:42","action":"login_rate_limited","partner_id":0,"user_id":null,"ip":"172.20.0.1","data":{"username":"support@tangram-studio.com","ip":"172.20.0.1","wait_minutes":10}}
+{"timestamp":"2026-01-20 09:28:43","action":"login_rate_limited","partner_id":0,"user_id":null,"ip":"172.20.0.1","data":{"username":"support@tangram-studio.com","ip":"172.20.0.1","wait_minutes":10}}
+{"timestamp":"2026-01-20 09:28:43","action":"login_rate_limited","partner_id":0,"user_id":null,"ip":"172.20.0.1","data":{"username":"support@tangram-studio.com","ip":"172.20.0.1","wait_minutes":10}}
+{"timestamp":"2026-01-20 09:28:44","action":"login_rate_limited","partner_id":0,"user_id":null,"ip":"172.20.0.1","data":{"username":"support@tangram-studio.com","ip":"172.20.0.1","wait_minutes":10}}
+{"timestamp":"2026-01-20 09:28:45","action":"login_rate_limited","partner_id":0,"user_id":null,"ip":"172.20.0.1","data":{"username":"support@tangram-studio.com","ip":"172.20.0.1","wait_minutes":10}}
+{"timestamp":"2026-01-20 09:32:51","action":"login_rate_limited","partner_id":0,"user_id":null,"ip":"172.20.0.1","data":{"username":"support@tangram-studio.com","ip":"172.20.0.1","wait_minutes":6}}
+{"timestamp":"2026-01-20 09:32:52","action":"login_rate_limited","partner_id":0,"user_id":null,"ip":"172.20.0.1","data":{"username":"support@tangram-studio.com","ip":"172.20.0.1","wait_minutes":6}}
+{"timestamp":"2026-01-20 09:33:07","action":"login_rate_limited","partner_id":0,"user_id":null,"ip":"172.20.0.1","data":{"username":"support@tangram-studio.com","ip":"172.20.0.1","wait_minutes":5}}
+{"timestamp":"2026-01-20 09:33:27","action":"login_rate_limited","partner_id":0,"user_id":null,"ip":"172.20.0.1","data":{"username":"support@tangram-studio.com","ip":"172.20.0.1","wait_minutes":5}}
+{"timestamp":"2026-01-20 10:07:11","action":"login_failed","partner_id":0,"user_id":null,"ip":"172.20.0.1","data":{"username":"support@tangram-studio.com","reason":"user_not_found"}}
+{"timestamp":"2026-01-20 10:57:29","action":"partner_registered","partner_id":2,"user_id":2,"ip":"172.20.0.1","data":{"partner_type":"insurance_broker","company_name":"dfrdsf","email":"dr.tienam123@gmail.com","username":"support@tangram-studio.com"}}
+{"timestamp":"2026-01-20 11:15:15","action":"partner_registered","partner_id":4,"user_id":3,"ip":"172.20.0.1","data":{"partner_type":"insurance_broker","company_name":"dfrdsf","email":"dr.tienam1234@gmail.com","username":"tienam123"}}
+{"timestamp":"2026-01-20 11:21:57","action":"partner_registered","partner_id":5,"user_id":4,"ip":"172.20.0.1","data":{"partner_type":"insurance_broker","company_name":"2421412","email":"dr.tienam123@gmail.com","username":"support@tangram-studio.com"}}
+{"timestamp":"2026-01-20 11:28:33","action":"partner_registered","partner_id":6,"user_id":5,"ip":"172.20.0.1","data":{"partner_type":"insurance_broker","company_name":"Tangram L.T.D","email":"dr.tienam123@gmail.com","username":"tienam123"}}
+{"timestamp":"2026-01-20 11:45:56","action":"partner_registered","partner_id":7,"user_id":6,"ip":"172.20.0.1","data":{"partner_type":"insurance_broker","company_name":"Tangram L.T.D","email":"dr.tienam123@gmail.com","username":"tienam123"}}
