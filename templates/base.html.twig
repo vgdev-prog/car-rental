@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>{% block title %}Car Rental{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta charset="utf-8">
+
+    {# Подключаем CSS из легаси напрямую — они на том же домене #}
+    <link rel="stylesheet" href="/assets/css/reset.css">
+    <link rel="stylesheet" href="/assets/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="/assets/css/pj-all.css">
+    <link rel="stylesheet" href="/assets/css/lib.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/admin.css">
+    <link rel="stylesheet" href="/assets/css/mobile.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+<div id="container">
+    <div id="header"></div>
+    <div id="middle">
+        <div id="leftmenu">
+            {% include 'partials/_sidebar.html.twig' %}
+        </div>
+        <div id="right">
+            <div class="content-top"></div>
+            <div class="content-middle" id="content">
+                {% block content %}{% endblock %}
+            </div>
+            <div class="content-bottom"></div>
+        </div>
+        <div class="clear_both"></div>
+    </div>
+</div>
+
+<div id="footer-wrap">
+    <div id="footer">
+        <p>Powered by Coudicar systems {{ "now"|date("Y") }}</p>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% block javascripts %}{% endblock %}
+</body>
+</html>

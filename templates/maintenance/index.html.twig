@@ -1,0 +1,166 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Maintenance - Car Details{% endblock %}
+{% set tab = 'details' %}
+
+{% block content %}
+    {% include 'partials/_maintenance_tabs.html.twig' with { current_tab: tab } %}
+
+    <div class="pj-availability-form">
+        <fieldset class="fieldset white">
+            <form name="frmGetMaintenance" method="post" id="frmGetMaintenance" class="form pj-form">
+                <input type="hidden" name="get_avail" value="1"/>
+                <div class="pj-filter-block">
+                    <div class="pj-filter-block w300" style="margin-left: 10px">
+                        <span class="inline-block fix-width">
+                            <select name="car_id" id="car_id" class="pj-form-field w300">
+                                <option value="">-- Choose --</option>
+                                {% for car in cars %}
+                                    <option value="1">{{car.brand}} {{ car.model}} 2022 - {{ car.registration_number }}</option>
+                                {% endfor %}
+                            </select>
+                        </span>
+                    </div>
+                </div>
+                <div class="pj-filter-block">
+                    <button type="submit" class="pj-button">Search</button>
+                </div>
+            </form>
+        </fieldset>
+    </div>
+    <fieldset class="fieldset white">
+        <form action="#" method="post" id="frmUpdate" class="form pj-form">
+            <input type="hidden" name="car_id" value="2"/>
+            <table class="pj-table" id="tblMaintenance" cellpadding="0" cellspacing="0" style="width: 100%">
+                <thead>
+                <tr>
+                    <th style="width: 100px;">Category</th>
+                    <th>Description</th>
+                    <th>KM</th>
+                    <th style="width: 100px;">Amount</th>
+                    <th style="width: 100px;">Date</th>
+                    <th style="width: 30px;">&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <span class="pj-form-field-custom pj-form-field-custom-before">
+                            <select id="categories_1" name="categories[1]" class="pj-form-field w140 pj-category" data-index="1">
+                                <option value="">-- Choose --</option>
+                                <option value="oil_change" selected>Oil Change</option>
+                                <option value="brakes">Brakes</option>
+                                <option value="filters">Filters</option>
+                                <option value="light">Light</option>
+                                <option value="tires">Tires</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="pj-form-field-custom pj-form-field-custom-before">
+                            <input type="text" id="descriptions_1" name="descriptions[1]" class="pj-form-field pj-description" style="width: 90%;" data-index="1" value="Full synthetic oil change + filter"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="pj-form-field-custom pj-form-field-custom-before">
+                            <input type="text" id="kms_1" name="kms[1]" class="pj-form-field w90 pj-km" data-index="1" value="45230"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="pj-form-field-custom pj-form-field-custom-before">
+                            <span class="pj-form-field-before"><abbr class="pj-form-field-icon-text">$</abbr></span>
+                            <input type="text" id="amount_1" name="amount[1]" class="pj-form-field align_right w50 number pj-maintenance-amount" data-index="1" value="89.99"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="pj-form-field-custom pj-form-field-custom-after">
+                            <input type="text" id="date_1" name="date[1]" value="03/15/2026 10:30" data-index="1" class="pj-form-field pointer w110 datetimepick pj-date" readonly="readonly"/>
+                        </span>
+                    </td>
+                    <td><a class="pj-table-icon-delete btnDeleteMaintenance" title="Delete" href="#" data-id="1"></a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="pj-form-field-custom pj-form-field-custom-before">
+                            <select id="categories_2" name="categories[2]" class="pj-form-field w140 pj-category" data-index="2">
+                                <option value="">-- Choose --</option>
+                                <option value="oil_change">Oil Change</option>
+                                <option value="brakes" selected>Brakes</option>
+                                <option value="filters">Filters</option>
+                                <option value="light">Light</option>
+                                <option value="tires">Tires</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="pj-form-field-custom pj-form-field-custom-before">
+                            <input type="text" id="descriptions_2" name="descriptions[2]" class="pj-form-field pj-description" style="width: 90%;" data-index="2" value="Front brake pads replacement"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="pj-form-field-custom pj-form-field-custom-before">
+                            <input type="text" id="kms_2" name="kms[2]" class="pj-form-field w90 pj-km" data-index="2" value="45230"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="pj-form-field-custom pj-form-field-custom-before">
+                            <span class="pj-form-field-before"><abbr class="pj-form-field-icon-text">$</abbr></span>
+                            <input type="text" id="amount_2" name="amount[2]" class="pj-form-field align_right w50 number pj-maintenance-amount" data-index="2" value="245.00"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="pj-form-field-custom pj-form-field-custom-after">
+                            <input type="text" id="date_2" name="date[2]" value="03/10/2026 14:00" data-index="2" class="pj-form-field pointer w110 datetimepick pj-date" readonly="readonly"/>
+                        </span>
+                    </td>
+                    <td><a class="pj-table-icon-delete btnDeleteMaintenance" title="Delete" href="#" data-id="2"></a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="pj-form-field-custom pj-form-field-custom-before">
+                            <select id="categories_3" name="categories[3]" class="pj-form-field w140 pj-category" data-index="3">
+                                <option value="">-- Choose --</option>
+                                <option value="oil_change">Oil Change</option>
+                                <option value="brakes">Brakes</option>
+                                <option value="filters">Filters</option>
+                                <option value="light">Light</option>
+                                <option value="tires" selected>Tires</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="pj-form-field-custom pj-form-field-custom-before">
+                            <input type="text" id="descriptions_3" name="descriptions[3]" class="pj-form-field pj-description" style="width: 90%;" data-index="3" value="Winter tires swap to summer"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="pj-form-field-custom pj-form-field-custom-before">
+                            <input type="text" id="kms_3" name="kms[3]" class="pj-form-field w90 pj-km" data-index="3" value="44800"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="pj-form-field-custom pj-form-field-custom-before">
+                            <span class="pj-form-field-before"><abbr class="pj-form-field-icon-text">$</abbr></span>
+                            <input type="text" id="amount_3" name="amount[3]" class="pj-form-field align_right w50 number pj-maintenance-amount" data-index="3" value="60.00"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="pj-form-field-custom pj-form-field-custom-after">
+                            <input type="text" id="date_3" name="date[3]" value="03/01/2026 09:00" data-index="3" class="pj-form-field pointer w110 datetimepick pj-date" readonly="readonly"/>
+                        </span>
+                    </td>
+                    <td><a class="pj-table-icon-delete btnDeleteMaintenance" title="Delete" href="#" data-id="3"></a></td>
+                </tr>
+                </tbody>
+            </table>
+            <p>
+                <input type="submit" value="Save" class="pj-button" id="btnSaveMaintenance"/>
+                <input type="button" value="Add +" class="pj-button" id="btnAddMaintenance"/>
+                <label style="float: right; margin: 10px 0 0 10px; font-size: 16px;"> Grant total: $394.99</label>
+            </p>
+        </form>
+    </fieldset>
+{% endblock %}
