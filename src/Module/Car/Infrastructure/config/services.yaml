@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Module\Car\:
+        resource: '../../'
+        exclude:
+            - '../../Domain/Entity'
+            - '../../Infrastructure/config'
