@@ -16,3 +16,7 @@ docs
 CLAUDE.md
 /.claude/
 ###< claude ###
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###
