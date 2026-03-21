@@ -7,17 +7,26 @@
         "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "doctrine/doctrine-bundle": "^2.18",
+        "doctrine/doctrine-migrations-bundle": "^3.7",
+        "doctrine/orm": "^3.6",
+        "gedmo/doctrine-extensions": "*",
         "symfony/console": "7.4.*",
         "symfony/dotenv": "7.4.*",
         "symfony/flex": "^2.10",
         "symfony/framework-bundle": "7.4.*",
         "symfony/runtime": "7.4.*",
-        "symfony/yaml": "7.4.*"
+        "symfony/security-bundle": "7.4.*",
+        "symfony/twig-bundle": "7.4.*",
+        "symfony/yaml": "7.4.*",
+        "twig/extra-bundle": "^3.24"
     },
     "require-dev": {
         "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan": "^2.1",
-        "phpstan/phpstan-symfony": "^2.0"
+        "phpstan/phpstan-symfony": "^2.0",
+        "symfony/maker-bundle": "^1.67",
+        "vgdev-prog/symfony-module-maker": "@dev"
     },
     "config": {
         "allow-plugins": {
@@ -61,6 +70,13 @@
             "@auto-scripts"
         ]
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../symfony-module-maker",
+            "canonical": false
+        }
+    ],
     "conflict": {
         "symfony/symfony": "*"
     },
