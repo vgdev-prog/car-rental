@@ -1,9 +1,0 @@
-doctrine:
-    orm:
-        mappings:
-            Car:
-                type: attribute
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/Module/Car/Domain/Entity'
-                prefix: 'App\Module\Car\Domain\Entity'
-                alias: Car

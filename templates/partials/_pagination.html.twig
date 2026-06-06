@@ -1,0 +1,45 @@
+{% if pagination.total > 0 %}
+<div class="pj-paginator" style="width: 100%;">
+    <span class="pj-paginator-goto">Go to page:
+        <input type="text" name="goto" value="{{ pagination.page }}" style="width: 20px;" class="pj-form-field pj-form-text pj-selector-goto">
+    </span>
+    <ul class="pj-paginator-list">
+        {% if pagination.page > 1 %}
+            <a href="?{{ query_params|merge({page: pagination.page - 1})|url_encode }}" title="Previous page" class="pj-paginator-list-prev">« Prev</a>
+        {% endif %}
+
+        {% set window = 4 %}
+        {% set start = max(1, pagination.page - window) %}
+        {% set end = min(pagination.total_pages, pagination.page + window) %}
+
+        {% if start > 1 %}
+            <a href="?{{ query_params|merge({page: 1})|url_encode }}" data-page="1" class="pj-paginator-list-paginate">1</a>
+        {% endif %}
+
+        {% for p in start..end %}
+            <a href="?{{ query_params|merge({page: p})|url_encode }}" title="Go to page: {{ p }}" data-page="{{ p }}" class="pj-paginator-list-paginate {{ p == pagination.page ? 'pj-paginator-list-active' }}">{{ p }}</a>
+        {% endfor %}
+
+        {% if end < pagination.total_pages %}
+            <a href="?{{ query_params|merge({page: pagination.total_pages})|url_encode }}" data-page="{{ pagination.total_pages }}" class="pj-paginator-list-paginate">{{ pagination.total_pages }}</a>
+        {% endif %}
+
+        {% if pagination.page < pagination.total_pages %}
+            <a href="?{{ query_params|merge({page: pagination.page + 1})|url_encode }}" title="Next page" class="pj-paginator-list-next">Next »</a>
+        {% endif %}
+    </ul>
+    <span class="pj-paginator-total">Total items: {{ pagination.total }} /
+        <a href="#" class="pj-button pj-paginator-row-count">{{ pagination.per_page }}</a>
+        <span style="display: none;" class="pj-menu-list-wrap">
+            <span class="pj-menu-list-arrow"></span>
+            <ul class="pj-menu-list">
+                <li><span style="font-size: 11px;">Items per page</span></li>
+                {% for count in [10, 20, 50, 100, 200, 500] %}
+                    <li><a href="?{{ query_params|merge({page: 1, rowCount: count})|url_encode }}" data-rowcount="{{ count }}" class="pj-selector-row-count">{{ count }}</a></li>
+                {% endfor %}
+            </ul>
+        </span>
+    </span>
+    <span style="clear: both;"></span>
+</div>
+{% endif %}

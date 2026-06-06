@@ -3,7 +3,7 @@
 	<ul class="menu">
 		<li><a href="/index.php?controller=pjAdmin&amp;action=pjActionIndex"><span class="menu-dashboard">&nbsp;</span>Dashboard</a></li>
 		<li><a href="/index.php?controller=pjAdminBookings&amp;action=pjActionIndex"><span class="menu-reservations">&nbsp;</span>Reservations</a></li>
-		<li><a href="/maintenance"><span class="menu-locations">&nbsp;</span>Maintenance</a></li>
+		<li><a href="/maintenance" class="{{ app.request.pathInfo starts with '/maintenance' ? 'menu-focus' }}"><span class="menu-locations">&nbsp;</span>Maintenance</a></li>
 		<li><a href="/index.php?controller=pjAdminQuotations&amp;action=pjActionIndex"><span class="menu-locations">&nbsp;</span>Quotations</a></li>
 		<li><a href="/index.php?controller=pjAdminBookings&amp;action=pjActionGetPaymentsNotPaid"><span class="menu-reservations">&nbsp;</span>Unpaid payments</a></li>
 		<li><a href="/index.php?controller=pjAdminBookings&amp;action=pjActionGetBilling"><span class="menu-reservations">&nbsp;</span>Billing</a></li>

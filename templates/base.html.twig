@@ -5,15 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta charset="utf-8">
 
-    {# Подключаем CSS из легаси напрямую — они на том же домене #}
-    <link rel="stylesheet" href="/assets/css/reset.css">
-    <link rel="stylesheet" href="/assets/css/jquery-ui.min.css">
-    <link rel="stylesheet" href="/assets/css/pj-all.css">
-    <link rel="stylesheet" href="/assets/css/lib.css">
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="stylesheet" href="/assets/css/admin.css">
-    <link rel="stylesheet" href="/assets/css/mobile.css">
+    {# App CSS is bundled through AssetMapper — see imports at the top of assets/app.js #}
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
@@ -41,6 +35,8 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<script src="/assets/js/jquery-ui-timepicker-addon.js"></script>
 {% block javascripts %}{% endblock %}
 </body>
 </html>

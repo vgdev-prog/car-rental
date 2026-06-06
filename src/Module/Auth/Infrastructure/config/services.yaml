@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            Doctrine\DBAL\Connection $legacyConnection: '@doctrine.dbal.legacy_connection'
+
+
+    App\Module\Car\:
+        resource: '../../'
+        exclude:
+            - '../../Domain/Entity'
+            - '../../Infrastructure/config'

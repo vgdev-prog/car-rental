@@ -30,6 +30,8 @@ class Kernel extends BaseKernel
         $routes->import('../config/routes.yaml');
 
         // Module routes
-        $routes->import('../src/Module/*/Infrastructure/config/routes.yaml');
+        $routes->import('../src/Module/*/Infrastructure/config/routes.yaml')
+        ->prefix('/api/v1')
+            ->namePrefix('api_');
     }
 }

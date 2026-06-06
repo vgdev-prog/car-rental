@@ -5,19 +5,14 @@
 
 {% block content %}
     {% include 'partials/_maintenance_tabs.html.twig' with { current_tab: tab } %}
-
     <div class="pj-availability-form">
         <fieldset class="fieldset white">
-            <form name="frmGetMaintenance" method="post" id="frmGetMaintenance" class="form pj-form">
-                <input type="hidden" name="get_avail" value="1"/>
+            <form name="frmGetMaintenance" id="frmGetMaintenance" class="form pj-form">
                 <div class="pj-filter-block">
                     <div class="pj-filter-block w300" style="margin-left: 10px">
                         <span class="inline-block fix-width">
                             <select name="car_id" id="car_id" class="pj-form-field w300">
                                 <option value="">-- Choose --</option>
-                                {% for car in cars %}
-                                    <option value="1">{{car.brand}} {{ car.model}} 2022 - {{ car.registration_number }}</option>
-                                {% endfor %}
                             </select>
                         </span>
                     </div>
@@ -30,7 +25,6 @@
     </div>
     <fieldset class="fieldset white">
         <form action="#" method="post" id="frmUpdate" class="form pj-form">
-            <input type="hidden" name="car_id" value="2"/>
             <table class="pj-table" id="tblMaintenance" cellpadding="0" cellspacing="0" style="width: 100%">
                 <thead>
                 <tr>
@@ -42,125 +36,214 @@
                     <th style="width: 30px;">&nbsp;</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="maintenanceBody">
                 <tr>
-                    <td>
-                        <span class="pj-form-field-custom pj-form-field-custom-before">
-                            <select id="categories_1" name="categories[1]" class="pj-form-field w140 pj-category" data-index="1">
-                                <option value="">-- Choose --</option>
-                                <option value="oil_change" selected>Oil Change</option>
-                                <option value="brakes">Brakes</option>
-                                <option value="filters">Filters</option>
-                                <option value="light">Light</option>
-                                <option value="tires">Tires</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="pj-form-field-custom pj-form-field-custom-before">
-                            <input type="text" id="descriptions_1" name="descriptions[1]" class="pj-form-field pj-description" style="width: 90%;" data-index="1" value="Full synthetic oil change + filter"/>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="pj-form-field-custom pj-form-field-custom-before">
-                            <input type="text" id="kms_1" name="kms[1]" class="pj-form-field w90 pj-km" data-index="1" value="45230"/>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="pj-form-field-custom pj-form-field-custom-before">
-                            <span class="pj-form-field-before"><abbr class="pj-form-field-icon-text">$</abbr></span>
-                            <input type="text" id="amount_1" name="amount[1]" class="pj-form-field align_right w50 number pj-maintenance-amount" data-index="1" value="89.99"/>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="pj-form-field-custom pj-form-field-custom-after">
-                            <input type="text" id="date_1" name="date[1]" value="03/15/2026 10:30" data-index="1" class="pj-form-field pointer w110 datetimepick pj-date" readonly="readonly"/>
-                        </span>
-                    </td>
-                    <td><a class="pj-table-icon-delete btnDeleteMaintenance" title="Delete" href="#" data-id="1"></a></td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="pj-form-field-custom pj-form-field-custom-before">
-                            <select id="categories_2" name="categories[2]" class="pj-form-field w140 pj-category" data-index="2">
-                                <option value="">-- Choose --</option>
-                                <option value="oil_change">Oil Change</option>
-                                <option value="brakes" selected>Brakes</option>
-                                <option value="filters">Filters</option>
-                                <option value="light">Light</option>
-                                <option value="tires">Tires</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="pj-form-field-custom pj-form-field-custom-before">
-                            <input type="text" id="descriptions_2" name="descriptions[2]" class="pj-form-field pj-description" style="width: 90%;" data-index="2" value="Front brake pads replacement"/>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="pj-form-field-custom pj-form-field-custom-before">
-                            <input type="text" id="kms_2" name="kms[2]" class="pj-form-field w90 pj-km" data-index="2" value="45230"/>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="pj-form-field-custom pj-form-field-custom-before">
-                            <span class="pj-form-field-before"><abbr class="pj-form-field-icon-text">$</abbr></span>
-                            <input type="text" id="amount_2" name="amount[2]" class="pj-form-field align_right w50 number pj-maintenance-amount" data-index="2" value="245.00"/>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="pj-form-field-custom pj-form-field-custom-after">
-                            <input type="text" id="date_2" name="date[2]" value="03/10/2026 14:00" data-index="2" class="pj-form-field pointer w110 datetimepick pj-date" readonly="readonly"/>
-                        </span>
-                    </td>
-                    <td><a class="pj-table-icon-delete btnDeleteMaintenance" title="Delete" href="#" data-id="2"></a></td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="pj-form-field-custom pj-form-field-custom-before">
-                            <select id="categories_3" name="categories[3]" class="pj-form-field w140 pj-category" data-index="3">
-                                <option value="">-- Choose --</option>
-                                <option value="oil_change">Oil Change</option>
-                                <option value="brakes">Brakes</option>
-                                <option value="filters">Filters</option>
-                                <option value="light">Light</option>
-                                <option value="tires" selected>Tires</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="pj-form-field-custom pj-form-field-custom-before">
-                            <input type="text" id="descriptions_3" name="descriptions[3]" class="pj-form-field pj-description" style="width: 90%;" data-index="3" value="Winter tires swap to summer"/>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="pj-form-field-custom pj-form-field-custom-before">
-                            <input type="text" id="kms_3" name="kms[3]" class="pj-form-field w90 pj-km" data-index="3" value="44800"/>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="pj-form-field-custom pj-form-field-custom-before">
-                            <span class="pj-form-field-before"><abbr class="pj-form-field-icon-text">$</abbr></span>
-                            <input type="text" id="amount_3" name="amount[3]" class="pj-form-field align_right w50 number pj-maintenance-amount" data-index="3" value="60.00"/>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="pj-form-field-custom pj-form-field-custom-after">
-                            <input type="text" id="date_3" name="date[3]" value="03/01/2026 09:00" data-index="3" class="pj-form-field pointer w110 datetimepick pj-date" readonly="readonly"/>
-                        </span>
-                    </td>
-                    <td><a class="pj-table-icon-delete btnDeleteMaintenance" title="Delete" href="#" data-id="3"></a></td>
+                    <td colspan="6">No record found.</td>
                 </tr>
                 </tbody>
             </table>
             <p>
                 <input type="submit" value="Save" class="pj-button" id="btnSaveMaintenance"/>
                 <input type="button" value="Add +" class="pj-button" id="btnAddMaintenance"/>
-                <label style="float: right; margin: 10px 0 0 10px; font-size: 16px;"> Grant total: $394.99</label>
+                <label style="float: right; margin: 10px 0 0 10px; font-size: 16px;" id="grandTotal">Grant total: $0.00</label>
             </p>
         </form>
+        <div id="paginationContainer"></div>
     </fieldset>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const ROWS_PER_PAGE_OPTIONS = [10, 20, 50, 100, 200, 500];
+    const PAGE_WINDOW = 4;
+
+    const carSelect = document.getElementById('car_id');
+    const tableBody = document.getElementById('maintenanceBody');
+    const paginationContainer = document.getElementById('paginationContainer');
+    const grandTotalLabel = document.getElementById('grandTotal');
+    const searchForm = document.getElementById('frmGetMaintenance');
+
+    let currentPage = 1;
+    let rowCount = 10;
+
+    // Escape values before injecting them into HTML attributes.
+    const escape = (value) =>
+        String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+
+    const getCarId = () => carSelect.value || '';
+
+    const fetchJson = async (url) => {
+        const response = await fetch(url);
+        return response.json();
+    };
+
+    async function loadCars() {
+        const cars = await fetchJson('/api/v1/car');
+        for (const car of cars) {
+            const label = `${car.brand || ''} ${car.model || ''} - ${car.registration_number || ''}`.trim();
+            const option = new Option(label, car.id);
+            carSelect.add(option);
+        }
+    }
+
+    async function loadMaintenances(page = 1, perPage = rowCount) {
+        currentPage = page;
+        rowCount = perPage;
+
+        const query = new URLSearchParams({
+            car_id: getCarId(),
+            page: currentPage,
+            rowCount: rowCount,
+        });
+
+        const res = await fetchJson(`/api/v1/maintenance/?${query}`);
+        // API returns { data, meta: { current_page, last_page, per_page, total } } —
+        // adapt it once here to the shape the render functions expect.
+        renderTable(res.data);
+        renderPagination(res.meta);
+        // renderGrandTotal(data.total_amount);
+    }
+
+    function renderTable(items) {
+        if (!items || !items.length) {
+            tableBody.innerHTML = '<tr><td colspan="6">No record found.</td></tr>';
+            return;
+        }
+
+        tableBody.innerHTML = items.map((item) => {
+            const categoryTitle = item.category?.title ?? '';
+            return `
+                <tr>
+                    <td><span class="pj-form-field-custom pj-form-field-custom-before">
+                        <input type="text" class="pj-form-field w140" value="${escape(categoryTitle)}" readonly/>
+                    </span></td>
+                    <td><span class="pj-form-field-custom pj-form-field-custom-before">
+                        <input type="text" name="description" class="pj-form-field pj-description" style="width: 90%;" data-index="${escape(item.id)}" value="${escape(item.description || '')}"/>
+                    </span></td>
+                    <td><span class="pj-form-field-custom pj-form-field-custom-before">
+                        <input type="text" name="odometer" class="pj-form-field w90 pj-km" data-index="${escape(item.id)}" value="${escape(item.odometer || 0)}"/>
+                    </span></td>
+                    <td><span class="pj-form-field-custom pj-form-field-custom-before">
+                        <span class="pj-form-field-before"><abbr class="pj-form-field-icon-text">$</abbr></span>
+                        <input type="text" name="amount" class="pj-form-field align_right w50 number pj-maintenance-amount" data-index="${escape(item.id)}" value="${escape(item.amount || '0.00')}"/>
+                    </span></td>
+                    <td><span class="pj-form-field-custom pj-form-field-custom-after">
+                        <input type="text" name="date" value="${escape(item.date || '')}" data-index="${escape(item.id)}" class="pj-form-field pointer w110 datetimepick pj-date"/>
+                    </span></td>
+                    <td><a class="pj-table-icon-delete btnDeleteMaintenance" title="Delete" href="#" data-id="${escape(item.id)}"></a></td>
+                </tr>`;
+        }).join('');
+
+        // datetimepicker is a jQuery-UI plugin (timepicker-addon) — no vanilla equivalent, keep it on jQuery.
+        if (window.jQuery) {
+            window.jQuery('.datetimepick').datetimepicker({
+                dateFormat: 'mm/dd/yy',
+                timeFormat: 'HH:mm',
+            });
+        }
+    }
+
+    function renderPagination(pagination) {
+        if (!pagination || pagination.total === 0) {
+            paginationContainer.innerHTML = '';
+            return;
+        }
+
+        const start = Math.max(1, pagination.page - PAGE_WINDOW);
+        const end = Math.min(pagination.total_pages, pagination.page + PAGE_WINDOW);
+
+        const links = [];
+
+        if (pagination.page > 1) {
+            links.push(`<a href="#" class="pj-paginator-list-prev" data-page="${pagination.page - 1}">« Prev</a>`);
+        }
+        if (start > 1) {
+            links.push('<a href="#" class="pj-paginator-list-paginate" data-page="1">1</a>');
+        }
+        for (let page = start; page <= end; page++) {
+            const active = page === pagination.page ? ' pj-paginator-list-active' : '';
+            links.push(`<a href="#" class="pj-paginator-list-paginate${active}" data-page="${page}">${page}</a>`);
+        }
+        if (end < pagination.total_pages) {
+            links.push(`<a href="#" class="pj-paginator-list-paginate" data-page="${pagination.total_pages}">${pagination.total_pages}</a>`);
+        }
+        if (pagination.page < pagination.total_pages) {
+            links.push(`<a href="#" class="pj-paginator-list-next" data-page="${pagination.page + 1}">Next »</a>`);
+        }
+
+        const rowCountMenu = ROWS_PER_PAGE_OPTIONS
+            .map((count) => `<li><a href="#" class="pj-selector-row-count" data-rowcount="${count}">${count}</a></li>`)
+            .join('');
+
+        paginationContainer.innerHTML = `
+            <div class="pj-paginator" style="width: 100%;">
+                <span class="pj-paginator-goto">Go to page:
+                    <input type="text" name="goto" value="${pagination.page}" style="width: 20px;" class="pj-form-field pj-form-text pj-selector-goto">
+                </span>
+                <ul class="pj-paginator-list">${links.join('')}</ul>
+                <span class="pj-paginator-total">Total items: ${pagination.total} /
+                    <a href="#" class="pj-button pj-paginator-row-count">${pagination.per_page}</a>
+                    <span style="display: none;" class="pj-menu-list-wrap">
+                        <span class="pj-menu-list-arrow"></span>
+                        <ul class="pj-menu-list">
+                            <li><span style="font-size: 11px;">Items per page</span></li>
+                            ${rowCountMenu}
+                        </ul>
+                    </span>
+                </span>
+                <span style="clear: both;"></span>
+            </div>`;
+    }
+
+    function renderGrandTotal(amount) {
+        const total = Number.parseFloat(amount || 0).toFixed(2);
+        grandTotalLabel.textContent = `Grant total: $${total}`;
+    }
+
+    searchForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        loadMaintenances(1, rowCount);
+    });
+
+    // All pagination controls live inside paginationContainer — delegate from there.
+    paginationContainer.addEventListener('click', (event) => {
+        const pageLink = event.target.closest('.pj-paginator-list-paginate, .pj-paginator-list-prev, .pj-paginator-list-next');
+        if (pageLink) {
+            event.preventDefault();
+            loadMaintenances(Number.parseInt(pageLink.dataset.page, 10), rowCount);
+            return;
+        }
+
+        const rowCountToggle = event.target.closest('.pj-paginator-row-count');
+        if (rowCountToggle) {
+            event.preventDefault();
+            const menu = rowCountToggle.parentElement.querySelector('.pj-menu-list-wrap');
+            menu.style.display = menu.style.display === 'none' ? '' : 'none';
+            return;
+        }
+
+        const rowCountOption = event.target.closest('.pj-selector-row-count');
+        if (rowCountOption) {
+            event.preventDefault();
+            loadMaintenances(1, Number.parseInt(rowCountOption.dataset.rowcount, 10));
+        }
+    });
+
+    paginationContainer.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' && event.target.matches('.pj-selector-goto')) {
+            event.preventDefault();
+            const page = Number.parseInt(event.target.value, 10) || 1;
+            loadMaintenances(page, rowCount);
+        }
+    });
+
+    loadCars();
+    loadMaintenances(1, rowCount);
+});
+</script>
 {% endblock %}

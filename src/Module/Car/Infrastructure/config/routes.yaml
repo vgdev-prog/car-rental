@@ -1,5 +1,0 @@
-car_controllers:
-    resource:
-        path: ../Http/Controller/
-        namespace: App\Module\Car\Infrastructure\Http\Controller
-    type: attribute

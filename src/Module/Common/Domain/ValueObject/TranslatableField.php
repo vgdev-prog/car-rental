@@ -3,8 +3,9 @@
 namespace App\Module\Common\Domain\ValueObject;
 
 use App\Module\Common\Domain\Enum\Locale;
+use JsonSerializable;
 
-class TranslatableField implements \JsonSerializable
+class TranslatableField implements JsonSerializable
 {
     public function __construct(
         private array $translations = [],
