@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Module\Common\Infrastructure\Http\Resource;
+namespace App\Module\Common\Infrastructure\Resource;
 
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
