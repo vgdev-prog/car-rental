@@ -1,5 +1,7 @@
-car_controllers:
+auth_controllers:
     resource:
         path: ../Controller/
         namespace: App\Module\Auth\Infrastructure\Controller
     type: attribute
+    prefix: auth
+    name_prefix: auth_
