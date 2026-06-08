@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Module\Common\Domain\Enum;
+
+enum ErrorCode: string
+{
+case INTERNAL_ERROR = 'INTERNAL_SERVER_ERROR';
+case NOT_FOUND = 'NOT_FOUND';
+case BAD_REQUEST = 'BAD_REQUEST';
+
+case HTTP_TO_MANY_REQUESTS = 'HTTP_TO_MANY_REQUESTS';
+
+case VALIDATION_ERROR = 'VALIDATION_ERROR';
+case METHOD_NOT_ALLOWED = 'METHOD_NOT_ALLOWED';
+case HTTP_ERROR = 'HTTP_ERROR';
+}
