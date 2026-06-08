@@ -8,8 +8,6 @@ doctrine:
                 use_savepoints: true
             legacy:
                 url: '%env(resolve:LEGACY_DATABASE_URL)%'
-        types:
-            translatable_field: App\Module\Common\Infrastructure\Doctrine\TranslatableFieldType
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
