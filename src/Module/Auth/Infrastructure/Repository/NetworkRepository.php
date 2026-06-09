@@ -16,16 +16,4 @@ class NetworkRepository extends ServiceEntityRepository implements NetworkReposi
     {
         parent::__construct($registry, Network::class);
     }
-
-    public function save(Network $entity): void
-    {
-        $this->getEntityManager()->persist($entity);
-        $this->getEntityManager()->flush();
-    }
-
-    public function remove(Network $entity): void
-    {
-        $this->getEntityManager()->remove($entity);
-        $this->getEntityManager()->flush();
-    }
 }

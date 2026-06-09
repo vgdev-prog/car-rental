@@ -2,8 +2,19 @@
 
 namespace App\Module\Auth\Infrastructure\Security;
 
+use App\Module\Auth\Application\UseCase\Input\LoginByMailCommand;
+use App\Module\Auth\Application\UseCase\LoginByMailHandler;
+use App\Module\Auth\Domain\Entity\Session;
 use App\Module\Auth\Domain\Exception\InvalidAuthCredentials;
+use App\Module\Auth\Domain\Exception\UserNotFoundException;
+use App\Module\Auth\Infrastructure\Repository\UserRepository;
 use App\Module\Auth\Infrastructure\Request\LoginUserByMailDTO;
+use App\Module\Auth\Infrastructure\Resource\AuthenticatedResource;
+use App\Module\Common\Infrastructure\Service\RandomTokenGeneratorGenerator;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Clock\ClockInterface;
+use Symfony\Component\HttpFoundation\Exception\JsonException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -17,22 +28,24 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ApiAuthenticator extends AbstractAuthenticator
 {
+    public const URL_SUPPORT_PATH = '/api/v1/auth/login';
     public function __construct(
-        private ValidatorInterface $validator,
+        private readonly ValidatorInterface $validator,
+        private readonly LoginByMailHandler $loginByMailHandler,
     )
     {
     }
 
     public function supports(Request $request): ?bool
     {
-        return $request->getMethod() === Request::METHOD_POST && $request->getPathInfo() === '/api/v1/auth/login';
+        return $request->getMethod() === Request::METHOD_POST && $request->getPathInfo() === self::URL_SUPPORT_PATH;
     }
 
     public function authenticate(Request $request): Passport
     {
         try {
             $data = $request->toArray();
-        } catch (\Symfony\Component\HttpFoundation\Exception\JsonException) {
+        } catch (JsonException) {
             $data = [];
         }
         $context = LoginUserByMailDTO::fromArray($data);
@@ -48,8 +61,17 @@ class ApiAuthenticator extends AbstractAuthenticator
         );
     }
 
+    /**
+     * @throws UserNotFoundException
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        $user = $token->getUser();
+
+        $context = new LoginByMailCommand($user->getEmail());
+        $data = $this->loginByMailHandler->handle($context);
+
+        return new JsonResponse(AuthenticatedResource::make($data->session->getToken(),$data->expiresAt,$user));
 
     }
 
@@ -60,15 +82,4 @@ class ApiAuthenticator extends AbstractAuthenticator
     {
         throw new InvalidAuthCredentials();
     }
-
-    //    public function start(Request $request, ?AuthenticationException $authException = null): Response
-    //    {
-    //        /*
-    //         * If you would like this class to control what happens when an anonymous user accesses a
-    //         * protected page (e.g. redirect to /login), uncomment this method and make this class
-    //         * implement Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface.
-    //         *
-    //         * For more details, see https://symfony.com/doc/current/security/experimental_authenticators.html#configuring-the-authentication-entry-point
-    //         */
-    //    }
 }

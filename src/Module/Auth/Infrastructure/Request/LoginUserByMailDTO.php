@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace App\Module\Auth\Infrastructure\Request;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class LoginUserByMailDTO
@@ -24,6 +23,4 @@ class LoginUserByMailDTO
         $resource->password = $data['password'] ?? null;
         return $resource;
     }
-
-
 }

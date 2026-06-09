@@ -4,5 +4,5 @@ namespace App\Module\Common\Domain\Contract;
 
 interface RequestInterface
 {
-    public function toCommand();
+    public function toCommand(): CommandInterface;
 }

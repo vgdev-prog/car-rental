@@ -17,15 +17,8 @@ class SessionRepository extends ServiceEntityRepository implements SessionReposi
         parent::__construct($registry, Session::class);
     }
 
-    public function save(Session $entity): void
+    public function findByToken(string $token): ?Session
     {
-        $this->getEntityManager()->persist($entity);
-        $this->getEntityManager()->flush();
-    }
-
-    public function remove(Session $entity): void
-    {
-        $this->getEntityManager()->remove($entity);
-        $this->getEntityManager()->flush();
+        return $this->findOneBy(['token' => $token]);
     }
 }

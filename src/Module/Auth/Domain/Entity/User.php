@@ -2,7 +2,6 @@
 
 namespace App\Module\Auth\Domain\Entity;
 
-use _PHPStan_584420d24\Nette\Neon\Exception;
 use App\Module\Auth\Domain\Enum\Role;
 use App\Module\Auth\Domain\Enum\Status;
 use App\Module\Auth\Domain\ValueObject\Email;
@@ -76,7 +75,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->networks = new ArrayCollection();
     }
 
-    public function createFromEmail(Email $email, string $password): self
+    public static function createFromEmail(Email $email, string $password): self
     {
         $user = new self();
         $user->email = $email;
@@ -136,6 +135,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->phone = $phone;
 
         return $this;
+    }
+    public function getEmailApprovedAt(): ?DateTimeImmutable
+    {
+        return $this->emailApprovedAt;
     }
 
 
@@ -236,20 +239,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
-
-    public function getEmailApprovedAt(): ?DateTimeImmutable
+    /**
+     * @return Collection<int, Network>
+     */
+    public function getNetworks(): Collection
     {
-        return $this->emailApprovedAt;
+        return $this->networks;
     }
-
-    public function setEmailApprovedAt(?DateTimeImmutable $emailApprovedAt): static
-    {
-        $this->emailApprovedAt = $emailApprovedAt;
-
-        return $this;
-    }
-
     /**
      * Ensure the session doesn't contain actual password hashes by CRC32C-hashing them, as supported since Symfony 7.3.
      */
@@ -266,13 +262,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials(): void
     {
         // @deprecated, to be removed when upgrading to Symfony 8
-    }
-
-    /**
-     * @return Collection<int, Network>
-     */
-    public function getNetworks(): Collection
-    {
-        return $this->networks;
     }
 }

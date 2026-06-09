@@ -28,7 +28,7 @@ class Session
     public function __construct(
         User              $user,
         string            $token,
-        DateTimeImmutable $expiresAt
+        DateTimeImmutable $expiresAt,
     )
     {
         $this->user = $user;
