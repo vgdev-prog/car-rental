@@ -1,6 +1,5 @@
-DOCKER = docker exec booking-symfony
-CONSOLE = $(DOCKER) php bin/console
-PHPSTAN = $(DOCKER) vendor/bin/phpstan
+CONSOLE = php bin/console
+PHPSTAN = vendor/bin/phpstan
 
 ## Docker
 up: ## Start all containers
@@ -39,14 +38,11 @@ db-status: ## Show migrations status
 
 ## Generate
 entity: ## Make module entity (interactive)
-	docker exec -it booking-symfony php bin/console make:module:entity
+	$(CONSOLE) make:module:entity
 
 ## Utility
 sc: ## Symfony console (usage: m sc app:migrate:cars)
-	docker exec -it booking-symfony php bin/console $(filter-out $@,$(MAKECMDGOALS))
+	$(CONSOLE) $(filter-out $@,$(MAKECMDGOALS))
 
 %:
 	@:
-
-sh: ## Open shell in Symfony container
-	docker exec -it booking-symfony bash
