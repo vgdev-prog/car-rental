@@ -22,10 +22,6 @@ security:
             provider: app_user_provider
             access_token:
                 token_handler: App\Module\Auth\Infrastructure\Security\ApiTokenHandler
-            json_login:
-                check_path: api_auth_login
-                username_path: email
-                password_path: password
             custom_authenticators:
                 - App\Module\Auth\Infrastructure\Security\ApiAuthenticator
             login_throttling:
@@ -37,9 +33,8 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
-        - { path: ^/api/v1/auth/login,    roles: PUBLIC_ACCESS }
-        - { path: ^/api/v1/auth/register, roles: PUBLIC_ACCESS }
-        - { path: ^/api,                  roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/v1/auth,    roles: PUBLIC_ACCESS }
+        - { path: ^/api,            roles: IS_AUTHENTICATED_FULLY }
 
 
 when@test:

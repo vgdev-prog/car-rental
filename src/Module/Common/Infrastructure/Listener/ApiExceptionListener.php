@@ -35,31 +35,6 @@ final readonly class ApiExceptionListener implements EventSubscriberInterface
 
         $e = $event->getThrowable();
 
-
-        if ($e instanceof TooManyLoginAttemptsAuthenticationException) {
-            $context = [
-                'exception' => $e::class,
-                'file' => sprintf('%s:%d', $e->getFile(), $e->getLine()),
-                'trace' => $e->getTrace(),
-                'previous' => $this->previousChain($e),
-            ];
-
-            $response = [
-                'code' => 429,
-                'error_code' => ErrorCode::HTTP_TO_MANY_REQUESTS->value,
-                'message' => 'To many attempts',
-            ];
-
-            if ($this->debug) {
-                $response['context'] = $context;
-            }
-
-            $event->setResponse(new JsonResponse($response, 422));
-
-            return;
-        }
-
-
         if ($e instanceof ValidationFailedException) {
             $context = [
                 'exception' => $e::class,
@@ -98,6 +73,7 @@ final readonly class ApiExceptionListener implements EventSubscriberInterface
                 $e::getStatusCode(),
                 $e::getDomainErrorCode(),
                 $e->getMessage(),
+                []
             ],
 
             $e instanceof HttpExceptionInterface => [

@@ -5,6 +5,7 @@ namespace App\Module\Auth\Infrastructure\Security;
 use App\Module\Auth\Application\UseCase\Input\LoginByMailCommand;
 use App\Module\Auth\Application\UseCase\LoginByMailHandler;
 use App\Module\Auth\Domain\Entity\Session;
+use App\Module\Auth\Domain\Enum\ErrorCode;
 use App\Module\Auth\Domain\Exception\InvalidAuthCredentials;
 use App\Module\Auth\Domain\Exception\UserNotFoundException;
 use App\Module\Auth\Infrastructure\Repository\UserRepository;
@@ -19,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\TooManyLoginAttemptsAuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
@@ -80,6 +82,32 @@ class ApiAuthenticator extends AbstractAuthenticator
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        throw new InvalidAuthCredentials();
+        if ($exception instanceof TooManyLoginAttemptsAuthenticationException) {
+            $minutes = (int) ($exception->getMessageData()['%minutes%'] ?? 1);
+
+            return new JsonResponse(
+                [
+                    'error' => [
+                        'code'       => Response::HTTP_TOO_MANY_REQUESTS,
+                        'error_code' => 'TOO_MANY_ATTEMPTS',
+                        'message'    => 'Too many login attempts. Try again later.',
+                    ],
+                ],
+                Response::HTTP_TOO_MANY_REQUESTS,
+                ['Retry-After' => $minutes * 60],
+            );
+        }
+
+        return new JsonResponse(
+            [
+                'error' => [
+                    'code'       => Response::HTTP_UNAUTHORIZED,
+                    'error_code' => ErrorCode::INVALID_CREDENTIALS,
+                    'message'    => 'Invalid credentials.',
+                ],
+            ],
+            Response::HTTP_UNAUTHORIZED,
+        );
+
     }
 }
