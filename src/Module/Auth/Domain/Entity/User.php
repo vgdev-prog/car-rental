@@ -9,6 +9,7 @@ use App\Module\Auth\Infrastructure\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use phpDocumentor\Reflection\TypeResolver;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,16 +18,21 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    public const HASH_ALGORITHM = 'sha256';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'email', length: 180, unique: true)]
-    private Email $email;
+    #[ORM\Column(type: 'email', length: 180, unique: true, nullable: true)]
+    private ?Email $email;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $phone = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $code = null;
 
     #[ORM\Column(enumType: Status::class)]
     private Status $status = Status::PENDING;
@@ -38,10 +44,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * @var ?string The hashed password
      */
-    #[ORM\Column]
-    private string $password;
+    #[ORM\Column(nullable: true)]
+    private ?string $password;
 
     /**
      * @var Collection<int, Session>
@@ -51,6 +57,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(nullable: true)]
     private ?DateTimeImmutable $emailApprovedAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $phoneApprovedAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $passwordResetToken = null;
@@ -65,9 +74,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $networks;
 
 
-
-
-
     private function __construct()
     {
         $this->sessions = new ArrayCollection();
@@ -80,6 +86,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $user = new self();
         $user->email = $email;
         $user->password = $password;
+
+        return $user;
+    }
+
+    public static function createFromPhone(string $phone): self
+    {
+        $user = new self();
+        $user->phone = $phone;
 
         return $user;
     }
@@ -136,6 +150,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getPhoneApprovedAt(): ?DateTimeImmutable
+    {
+        return $this->phoneApprovedAt;
+    }
+
+    public function approvePhone(): static
+    {
+        $this->phoneApprovedAt = new DateTimeImmutable();
+        $this->status = Status::ACTIVE;
+        return $this;
+    }
+
+    public function issueVerificationCode(string $code): static
+    {
+        $this->code = $code;
+        return $this;
+    }
+
     public function getEmailApprovedAt(): ?DateTimeImmutable
     {
         return $this->emailApprovedAt;
@@ -151,9 +184,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->emailApprovedAt = $now;
     }
 
-    public function isEmailConfirmed(): bool
+    public function isConfirmed(): bool
     {
-        return $this->emailApprovedAt !== null;
+        return $this->emailApprovedAt !== null || $this->phoneApprovedAt !== null;
     }
 
     public function requestPasswordReset(string $token, DateTimeImmutable $now): void
@@ -164,7 +197,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function isPasswordResetTokenValid(DateTimeImmutable $now): bool
     {
-        return  $this->passwordResetTokenExpiresAt <= $now;
+        return $this->passwordResetTokenExpiresAt <= $now;
     }
 
     public function resetPassword(string $hashedPassword): void
@@ -208,7 +241,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
-
     /**
      * @return Collection<int, Session>
      */
@@ -246,6 +278,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->networks;
     }
+
     /**
      * Ensure the session doesn't contain actual password hashes by CRC32C-hashing them, as supported since Symfony 7.3.
      */
