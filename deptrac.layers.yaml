@@ -1,0 +1,38 @@
+# Layer boundaries INSIDE every module: Domain <- Application <- Infrastructure.
+# Domain stays framework-free; Application may use Domain; Infrastructure may use
+# both. A Domain class reaching into Infrastructure is an architecture violation.
+deptrac:
+  paths:
+    - ./src
+  layers:
+    - name: Domain
+      collectors:
+        - type: directory
+          value: src/Module/.*/Domain/.*
+    - name: Application
+      collectors:
+        - type: directory
+          value: src/Module/.*/Application/.*
+    - name: Infrastructure
+      collectors:
+        - type: directory
+          value: src/Module/.*/Infrastructure/.*
+  ruleset:
+    Domain: ~
+    Application:
+      - Domain
+    Infrastructure:
+      - Domain
+      - Application
+
+  # Accepted Domain->Infrastructure couplings: a Doctrine entity names its own
+  # repository via #[ORM\Entity(repositoryClass: ...)]. This is the standard
+  # Symfony/Doctrine mapping, not a real architectural leak. Exact FQCNs only
+  # (deptrac matches these literally, no wildcards) -- add a pair per new entity.
+  skip_violations:
+    App\Module\Auth\Domain\Entity\Network:
+      - App\Module\Auth\Infrastructure\Repository\NetworkRepository
+    App\Module\Auth\Domain\Entity\Session:
+      - App\Module\Auth\Infrastructure\Repository\SessionRepository
+    App\Module\Auth\Domain\Entity\User:
+      - App\Module\Auth\Infrastructure\Repository\UserRepository

@@ -52,17 +52,17 @@ class Session
         return $this->id;
     }
 
-    public function getUser(): User
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function getToken(): string
+    public function getToken(): ?string
     {
         return $this->token;
     }
 
-    public function getExpiresAt(): \DateTimeImmutable
+    public function getExpiresAt(): \DateTimeImmutable|null
     {
         return $this->expiresAt;
     }

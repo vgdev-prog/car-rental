@@ -23,7 +23,16 @@ CLAUDE.md
 phpstan.neon
 ###< phpstan/phpstan ###
 
+###> deptrac/deptrac ###
+/.deptrac.cache
+###< deptrac/deptrac ###
+
 ###> symfony/asset-mapper ###
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###

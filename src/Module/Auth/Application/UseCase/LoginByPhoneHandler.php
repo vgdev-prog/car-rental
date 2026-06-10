@@ -28,12 +28,13 @@ class LoginByPhoneHandler
     public function handle(LoginByPhoneCommand $command): User
     {
         $user = $this->userRepository->findByPhone($command->phone);
+        $code = $this->generateRandomCode();
 
         if (!$user) {
             $user = User::createFromPhone($command->phone, hash(User::HASH_ALGORITHM, $code));
         }
 
-        $code = $this->generateRandomCode();
+
         $message = sprintf(
             'Hello. Your CitiCarRentals code: %s. Valid for 10 minutes. Never share it with anyone.',
             $code

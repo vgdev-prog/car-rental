@@ -1,5 +1,6 @@
 CONSOLE = php bin/console
 PHPSTAN = vendor/bin/phpstan
+DEPTRAC = vendor/bin/deptrac
 
 ## Docker
 up: ## Start all containers
@@ -19,6 +20,14 @@ cc: ## Clear cache
 ## Quality
 phpstan: ## Run static analysis
 	$(PHPSTAN) analyse
+
+deptrac: deptrac-layers deptrac-modules ## Run all architecture boundary checks
+
+deptrac-layers: ## Check Domain/Application/Infrastructure layering
+	$(DEPTRAC) analyse --config-file=deptrac.layers.yaml
+
+deptrac-modules: ## Check module isolation (feature modules use only Common)
+	$(DEPTRAC) analyse --config-file=deptrac.modules.yaml
 
 ## Database
 db-diff: ## Generate migration from entity diff

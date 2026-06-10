@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ApiAuthenticator extends AbstractAuthenticator
 {
-    public const URL_SUPPORT_PATH = '/api/v1/auth/login';
+    public const string URL_SUPPORT_PATH = '/api/v1/auth/login';
     public function __construct(
         private readonly ValidatorInterface $validator,
         private readonly LoginByMailHandler $loginByMailHandler,

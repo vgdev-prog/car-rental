@@ -37,9 +37,13 @@
         "twig/extra-bundle": "^3.24"
     },
     "require-dev": {
+        "deptrac/deptrac": "^4.6",
         "phpstan/extension-installer": "^1.4.3",
         "phpstan/phpstan": "^2.2.2",
         "phpstan/phpstan-symfony": "^2.0.19",
+        "phpunit/phpunit": "^13.2",
+        "symfony/browser-kit": "8.0.*",
+        "symfony/css-selector": "8.0.*",
         "symfony/debug-bundle": "8.0.*",
         "symfony/maker-bundle": "^1.67",
         "symfony/stopwatch": "8.0.*",
@@ -59,7 +63,10 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/"
-        }
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

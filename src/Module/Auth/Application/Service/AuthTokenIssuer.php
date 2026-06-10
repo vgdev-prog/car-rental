@@ -25,7 +25,7 @@ class AuthTokenIssuer
     {
     }
 
-    public function openSession(User $user, $extendedTtl = self::DEFAULT_TTL): TokenIssue
+    public function openSession(User $user, bool $extendedTtl = false): TokenIssue
     {
         $ttl = $extendedTtl ? self::EXTENDED_TTL : self::DEFAULT_TTL;
 
@@ -35,7 +35,7 @@ class AuthTokenIssuer
 
         $session = new Session($user, hash(self::HASH_ALGO, $token), $expires);
 
-        return new TokenIssue(session: $session, expiresAt: $expires,token:  $token);
+        return new TokenIssue(session: $session, expiresAt: $expires, token: $token);
     }
 
 

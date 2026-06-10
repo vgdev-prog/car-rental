@@ -4,6 +4,7 @@ namespace App\Module\Auth\Domain\Entity;
 
 use App\Module\Auth\Domain\Enum\Role;
 use App\Module\Auth\Domain\Enum\Status;
+use App\Module\Auth\Domain\Exception\EmailAlreadyApprovedException;
 use App\Module\Auth\Domain\ValueObject\Email;
 use App\Module\Auth\Infrastructure\Repository\UserRepository;
 use DateTimeImmutable;
@@ -90,10 +91,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $user;
     }
 
-    public static function createFromPhone(string $phone): self
+    public static function createFromPhone(string $phone, string $hash): self
     {
         $user = new self();
         $user->phone = $phone;
+        $user->code = $hash;
 
         return $user;
     }
@@ -115,7 +117,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string)$this->email;
+        return  $this->email ? (string) $this->email : $this->phone;
     }
 
     public function changeEmail(Email $email): static
@@ -175,10 +177,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
+    /**
+     * @throws EmailAlreadyApprovedException
+     */
     public function confirmMail(DateTimeImmutable $now): void
     {
         if (!$this->emailApprovedAt) {
-            throw new Exception('');
+            throw new EmailAlreadyApprovedException();
         }
 
         $this->emailApprovedAt = $now;
