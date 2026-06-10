@@ -1,8 +1,27 @@
+# phpstan/extension-installer auto-registers phpstan-symfony and phpstan-doctrine,
+# so no manual `includes:` for them is needed.
 parameters:
     level: 8
     paths:
-        - bin/
-        - config/
-        - public/
-        - src/
-        - tests/
+        - bin
+        - config
+        - public
+        - src
+        - tests
+
+    # phpstan-symfony: lets PHPStan resolve service types from the compiled container,
+    # ->get() return types, console command argument/option types, etc.
+    # Warm the dev container first (it is generated on cache warmup): `make cc`.
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+
+    # phpstan-doctrine: checks entity mappings against property types and makes
+    # EntityRepository<T> generics concrete.
+    #
+    # For full power (DQL string validation, getRepository() concrete return types)
+    # point objectManagerLoader at a small bootstrap script that boots the kernel
+    # and returns the EntityManager, then uncomment the block below.
+    # See: https://github.com/phpstan/phpstan-doctrine#configuration
+    #
+    # doctrine:
+    #     objectManagerLoader: tests/object-manager.php
