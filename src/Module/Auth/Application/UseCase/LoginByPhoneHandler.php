@@ -34,6 +34,10 @@ class LoginByPhoneHandler
             $user = User::createFromPhone($command->phone, hash(User::HASH_ALGORITHM, $code));
         }
 
+        if (!$user->getPhone()) {
+
+        }
+
 
         $message = sprintf(
             'Hello. Your CitiCarRentals code: %s. Valid for 10 minutes. Never share it with anyone.',

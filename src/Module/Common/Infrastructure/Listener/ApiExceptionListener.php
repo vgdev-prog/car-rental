@@ -83,14 +83,6 @@ final readonly class ApiExceptionListener implements EventSubscriberInterface
                 []
             ],
 
-            $e instanceof ValidationFailedException => [
-                422,
-                ErrorCode::VALIDATION_ERROR->value,
-                'Validation failed',
-                'errors' => $this->violationsToArray($e->getViolations()),
-                []
-            ],
-
             default => [
                 500,
                 ErrorCode::INTERNAL_ERROR->value,
@@ -121,7 +113,7 @@ final readonly class ApiExceptionListener implements EventSubscriberInterface
     {
         return match ($status) {
             400 => ErrorCode::BAD_REQUEST->value,
-            429 => ErrorCode::HTTP_TO_MANY_REQUESTS,
+            429 => ErrorCode::HTTP_TO_MANY_REQUESTS->value,
             404 => ErrorCode::NOT_FOUND->value,
             405 => ErrorCode::METHOD_NOT_ALLOWED->value,
             422 => ErrorCode::VALIDATION_ERROR->value,

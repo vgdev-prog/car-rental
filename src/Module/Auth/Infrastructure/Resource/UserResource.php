@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserResource implements \JsonSerializable
 {
-    public int $id;
+    public ?int $id;
 
     public string $email;
 
@@ -21,7 +21,7 @@ class UserResource implements \JsonSerializable
     {
     }
 
-    public static function make(User|UserInterface $user): self
+    public static function make(User $user): self
     {
         $resource = new self();
         $resource->id = $user->getId();

@@ -5,6 +5,7 @@ namespace App\Module\Auth\Infrastructure\Security;
 use App\Module\Auth\Application\UseCase\Input\LoginByMailCommand;
 use App\Module\Auth\Application\UseCase\LoginByMailHandler;
 use App\Module\Auth\Domain\Entity\Session;
+use App\Module\Auth\Domain\Entity\User;
 use App\Module\Auth\Domain\Enum\ErrorCode;
 use App\Module\Auth\Domain\Exception\InvalidAuthCredentials;
 use App\Module\Auth\Domain\Exception\UserNotFoundException;
@@ -69,6 +70,14 @@ class ApiAuthenticator extends AbstractAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         $user = $token->getUser();
+
+        if (!$user instanceof User){
+            return null;
+        }
+
+        if (!$user->getEmail()) {
+            return null;
+        }
 
         $context = new LoginByMailCommand($user->getEmail());
         $data = $this->loginByMailHandler->handle($context);

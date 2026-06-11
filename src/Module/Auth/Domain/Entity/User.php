@@ -117,7 +117,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return  $this->email ? (string) $this->email : $this->phone;
+        if (!$this->email || !$this->phone) {
+            throw new \LogicException('User identifier is not set.');
+        }
+
+        return  (string) $this->email ?: $this->phone;
     }
 
     public function changeEmail(Email $email): static
@@ -151,6 +155,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->phone = $phone;
 
         return $this;
+    }
+
+    public function maskPhone(): string
+    {
+        if (!$this->phone) {
+            return '';
+        }
+        $head = mb_substr($this->phone, 0, 4);
+        $tail = mb_substr($this->phone, -2);
+        $hidden = max(0, mb_strlen($this->phone) - 6);
+
+        return $head . str_repeat('•', $hidden) . $tail;
+
     }
 
     public function getPhoneApprovedAt(): ?DateTimeImmutable
@@ -214,18 +231,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     /**
+     * @return array<string>
      * @see UserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-
-        return array_values($roles);
+        return array_map(static fn (Role $role) => $role->value, $this->roles);
     }
 
     /**
      * @param Role $role
-     * @return User
      */
     public function grantRole(Role $role): static
     {
@@ -239,7 +254,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function revokeRole(Role $role): static
     {
         $this->roles = array_values(
-            array_filter($this->roles, static fn(string $userRole) => $userRole !== $role)
+            array_filter($this->roles, static fn(Role $userRole) => $userRole !== $role)
         );
 
         return $this;
@@ -252,28 +267,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getSessions(): Collection
     {
         return $this->sessions;
-    }
-
-    public function addSession(Session $session): static
-    {
-        if (!$this->sessions->contains($session)) {
-            $this->sessions->add($session);
-            $session->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSession(Session $session): static
-    {
-        if ($this->sessions->removeElement($session)) {
-            // set the owning side to null (unless already changed)
-            if ($session->getUser() === $this) {
-                $session->setUser(null);
-            }
-        }
-
-        return $this;
     }
 
     /**
@@ -290,15 +283,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __serialize(): array
     {
         $data = (array)$this;
-        $data["\0" . self::class . "\0password"] = hash('crc32c', $this->password);
+        $data["\0" . self::class . "\0password"] = hash('crc32c', $this->password ?? '');
 
         return $data;
-    }
-
-
-    #[\Deprecated]
-    public function eraseCredentials(): void
-    {
-        // @deprecated, to be removed when upgrading to Symfony 8
     }
 }

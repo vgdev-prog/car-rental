@@ -15,12 +15,12 @@ class Session
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sessions')]
+    #[ORM\ManyToOne(inversedBy: 'sessions',)]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private User $user;
 
     #[ORM\Column(length: 255, nullable: false)]
-    private ?string $token = null;
+    private string $token;
 
     #[ORM\Column(nullable: false)]
     private ?DateTimeImmutable $expiresAt = null;
@@ -52,12 +52,12 @@ class Session
         return $this->id;
     }
 
-    public function getUser(): ?User
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    public function getToken(): ?string
+    public function getToken(): string
     {
         return $this->token;
     }

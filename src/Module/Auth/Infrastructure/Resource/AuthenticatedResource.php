@@ -15,7 +15,7 @@ class AuthenticatedResource
     public string $expiresAt;
     public UserResource $user;
 
-    public static function make(string $token, DateTimeImmutable $expiresAt, UserInterface|User $user): self
+    public static function make(string $token, DateTimeImmutable $expiresAt, User $user): self
     {
         $resource = new self();
         $resource->token = $token;
