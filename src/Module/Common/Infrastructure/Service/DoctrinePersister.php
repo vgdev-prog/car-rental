@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Module\Common\Infrastructure\Service;
 
 use App\Module\Common\Domain\Contract\PersisterInterface;
@@ -14,8 +13,7 @@ class DoctrinePersister implements PersisterInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-    )
-    {
+    ) {
     }
 
     public function persist(object $entity): void

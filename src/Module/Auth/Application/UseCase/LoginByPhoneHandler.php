@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Module\Auth\Application\UseCase;
 
 use App\Module\Auth\Application\UseCase\Input\LoginByPhoneCommand;
@@ -12,14 +11,13 @@ use App\Module\Auth\Domain\Repository\UserRepositoryInterface;
 use App\Module\Common\Domain\Contract\PersisterInterface;
 use App\Module\Common\Domain\Contract\SmsSenderInterface;
 
-class LoginByPhoneHandler
+readonly class LoginByPhoneHandler
 {
     public function __construct(
         private UserRepositoryInterface $userRepository,
         private SmsSenderInterface $smsSender,
         private PersisterInterface $persister,
-    )
-    {
+    ) {
     }
 
     /**
@@ -35,9 +33,8 @@ class LoginByPhoneHandler
         }
 
         if (!$user->getPhone()) {
-
+            return throw new UserNotFoundException();
         }
-
 
         $message = sprintf(
             'Hello. Your CitiCarRentals code: %s. Valid for 10 minutes. Never share it with anyone.',
@@ -51,7 +48,6 @@ class LoginByPhoneHandler
         $this->persister->flush();
 
         return $user;
-
     }
 
     private function generateRandomCode(): string

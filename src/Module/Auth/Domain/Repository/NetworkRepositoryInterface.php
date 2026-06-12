@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Module\Auth\Domain\Repository;
+declare(strict_types=1);
 
+namespace App\Module\Auth\Domain\Repository;
 
 interface NetworkRepositoryInterface
 {

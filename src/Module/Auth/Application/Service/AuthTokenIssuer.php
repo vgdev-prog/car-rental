@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Module\Auth\Application\Service;
 
 use App\Module\Auth\Domain\Entity\Session;
@@ -19,10 +18,9 @@ class AuthTokenIssuer
     public const HASH_ALGO = 'sha256';
 
     public function __construct(
-        private ClockInterface          $clock,
-        private TokenGeneratorInterface $tokenGenerator
-    )
-    {
+        private ClockInterface $clock,
+        private TokenGeneratorInterface $tokenGenerator,
+    ) {
     }
 
     public function openSession(User $user, bool $extendedTtl = false): TokenIssue
@@ -37,6 +35,4 @@ class AuthTokenIssuer
 
         return new TokenIssue(session: $session, expiresAt: $expires, token: $token);
     }
-
-
 }

@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Module\Auth\Application\UseCase;
 
 use App\Module\Auth\Application\Service\AuthTokenIssuer;
@@ -18,8 +17,7 @@ class LoginByMailHandler
         private readonly UserRepositoryInterface $userRepository,
         private readonly AuthTokenIssuer $authTokenIssuer,
         private readonly PersisterInterface $persister,
-    )
-    {
+    ) {
     }
 
     /**
@@ -39,6 +37,5 @@ class LoginByMailHandler
         $this->persister->flush();
 
         return $issue;
-
     }
 }

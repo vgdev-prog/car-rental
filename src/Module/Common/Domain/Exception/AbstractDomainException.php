@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Module\Common\Domain\Exception;
 
-abstract class AbstractDomainException extends \Exception
+use Exception;
+
+abstract class AbstractDomainException extends Exception
 {
     final public static function getStatusCode(): int
     {
@@ -12,12 +16,12 @@ abstract class AbstractDomainException extends \Exception
     /**
      * Return domain error code for identifying and handling errors in API clients
      * Example:
-     * AUTH_INCORRECT_EMAIL_OR_PASSWORD
+     * AUTH_INCORRECT_EMAIL_OR_PASSWORD.
      */
     abstract public static function getDomainErrorCode(): string;
 
     /**
-     * Array with helpful data that will be passed to response
+     * Array with helpful data that will be passed to response.
      *
      * @return array<string, mixed>
      */
@@ -27,7 +31,7 @@ abstract class AbstractDomainException extends \Exception
     }
 
     /**
-     * Example of public context for API documentation
+     * Example of public context for API documentation.
      *
      * @return array<string, mixed>
      */
@@ -35,5 +39,4 @@ abstract class AbstractDomainException extends \Exception
     {
         return [];
     }
-
 }

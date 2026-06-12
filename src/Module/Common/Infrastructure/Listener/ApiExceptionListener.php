@@ -13,17 +13,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Security\Core\Exception\TooManyLoginAttemptsAuthenticationException;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
+use Throwable;
 
 final readonly class ApiExceptionListener implements EventSubscriberInterface
 {
     public function __construct(
         #[Autowire('%kernel.debug%')]
         private bool $debug,
-    )
-    {
+    ) {
     }
 
     public function onKernelException(ExceptionEvent $event): void
@@ -59,9 +58,7 @@ final readonly class ApiExceptionListener implements EventSubscriberInterface
             return;
         }
 
-
         [$status, $code, $message, $context] = match (true) {
-
             $e instanceof AbstractDomainException => [
                 $e::getStatusCode(),
                 $e::getDomainErrorCode(),
@@ -73,14 +70,14 @@ final readonly class ApiExceptionListener implements EventSubscriberInterface
                 $e::getStatusCode(),
                 $e::getDomainErrorCode(),
                 $e->getMessage(),
-                []
+                [],
             ],
 
             $e instanceof HttpExceptionInterface => [
                 $e->getStatusCode(),
                 $this->codeForStatus($e->getStatusCode()),
                 $e->getMessage(),
-                []
+                [],
             ],
 
             default => [
@@ -93,7 +90,6 @@ final readonly class ApiExceptionListener implements EventSubscriberInterface
 
         $error = ['code' => $status, 'error_code' => $code, 'message' => $message];
 
-
         if ($this->debug) {
             $error['context'] = $context;
 
@@ -104,7 +100,6 @@ final readonly class ApiExceptionListener implements EventSubscriberInterface
                 'previous' => $this->previousChain($e),
             ];
         }
-
 
         $event->setResponse(new JsonResponse(['error' => $error], $status));
     }
@@ -139,7 +134,7 @@ final readonly class ApiExceptionListener implements EventSubscriberInterface
         return $errors;
     }
 
-    private function previousChain(\Throwable $e): array
+    private function previousChain(Throwable $e): array
     {
         $chain = [];
         while ($e = $e->getPrevious()) {
@@ -152,6 +147,4 @@ final readonly class ApiExceptionListener implements EventSubscriberInterface
 
         return $chain;
     }
-
-
 }

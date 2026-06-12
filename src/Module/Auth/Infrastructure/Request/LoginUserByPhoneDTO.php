@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Module\Auth\Infrastructure\Request;
 
 use App\Module\Auth\Application\UseCase\Input\LoginByPhoneCommand;
@@ -16,13 +15,11 @@ class LoginUserByPhoneDTO implements RequestInterface
     #[Assert\Length(min: 10, max: 255)]
     public string $phone;
 
-
     public function toCommand(): LoginByPhoneCommand
     {
         $command = new LoginByPhoneCommand();
         $command->phone = $this->phone;
 
         return $command;
-
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Module\Auth\Infrastructure\Repository;
 
 use App\Module\Auth\Domain\Entity\User;
@@ -43,11 +45,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function findByMail(string $mail): ?User
     {
-       return $this->findOneBy(['email' => $mail]);
+        return $this->findOneBy(['email' => $mail]);
     }
 
     public function findByPhone(string $phone): ?User
     {
-       return $this->findOneBy(['phone' => $phone]);
+        return $this->findOneBy(['phone' => $phone]);
     }
 }

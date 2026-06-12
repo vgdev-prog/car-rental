@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Module\Auth\Infrastructure\Resource;
 
 use App\Module\Auth\Domain\Entity\User;

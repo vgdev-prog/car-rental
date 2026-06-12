@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Module\Auth\Domain\Entity;
 
 use App\Module\Auth\Domain\Enum\OAuthProvider;
@@ -35,9 +37,8 @@ class Network
         string $providerUserId,
         string $email,
         OAuthProvider $provider,
-        User $user
-    )
-    {
+        User $user,
+    ) {
         $this->provider = $provider;
         $this->email = $email;
         $this->providerUserId = $providerUserId;

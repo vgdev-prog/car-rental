@@ -13,7 +13,6 @@ readonly class TokenIssue
         public Session $session,
         public DateTimeImmutable $expiresAt,
         public string $token,
-    )
-    {
+    ) {
     }
 }

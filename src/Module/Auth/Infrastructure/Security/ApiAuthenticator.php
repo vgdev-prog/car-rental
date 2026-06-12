@@ -1,20 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Module\Auth\Infrastructure\Security;
 
 use App\Module\Auth\Application\UseCase\Input\LoginByMailCommand;
 use App\Module\Auth\Application\UseCase\LoginByMailHandler;
-use App\Module\Auth\Domain\Entity\Session;
 use App\Module\Auth\Domain\Entity\User;
 use App\Module\Auth\Domain\Enum\ErrorCode;
 use App\Module\Auth\Domain\Exception\InvalidAuthCredentials;
 use App\Module\Auth\Domain\Exception\UserNotFoundException;
-use App\Module\Auth\Infrastructure\Repository\UserRepository;
 use App\Module\Auth\Infrastructure\Request\LoginUserByMailDTO;
 use App\Module\Auth\Infrastructure\Resource\AuthenticatedResource;
-use App\Module\Common\Infrastructure\Service\RandomTokenGeneratorGenerator;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,16 +29,16 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class ApiAuthenticator extends AbstractAuthenticator
 {
     public const string URL_SUPPORT_PATH = '/api/v1/auth/login';
+
     public function __construct(
         private readonly ValidatorInterface $validator,
         private readonly LoginByMailHandler $loginByMailHandler,
-    )
-    {
+    ) {
     }
 
     public function supports(Request $request): ?bool
     {
-        return $request->getMethod() === Request::METHOD_POST && $request->getPathInfo() === self::URL_SUPPORT_PATH;
+        return Request::METHOD_POST === $request->getMethod() && self::URL_SUPPORT_PATH === $request->getPathInfo();
     }
 
     public function authenticate(Request $request): Passport
@@ -71,7 +68,7 @@ class ApiAuthenticator extends AbstractAuthenticator
     {
         $user = $token->getUser();
 
-        if (!$user instanceof User){
+        if (!$user instanceof User) {
             return null;
         }
 
@@ -82,8 +79,7 @@ class ApiAuthenticator extends AbstractAuthenticator
         $context = new LoginByMailCommand($user->getEmail());
         $data = $this->loginByMailHandler->handle($context);
 
-        return new JsonResponse(AuthenticatedResource::make($data->session->getToken(),$data->expiresAt,$user));
-
+        return new JsonResponse(AuthenticatedResource::make($data->session->getToken(), $data->expiresAt, $user));
     }
 
     /**
@@ -97,9 +93,9 @@ class ApiAuthenticator extends AbstractAuthenticator
             return new JsonResponse(
                 [
                     'error' => [
-                        'code'       => Response::HTTP_TOO_MANY_REQUESTS,
+                        'code' => Response::HTTP_TOO_MANY_REQUESTS,
                         'error_code' => 'TOO_MANY_ATTEMPTS',
-                        'message'    => 'Too many login attempts. Try again later.',
+                        'message' => 'Too many login attempts. Try again later.',
                     ],
                 ],
                 Response::HTTP_TOO_MANY_REQUESTS,
@@ -110,13 +106,12 @@ class ApiAuthenticator extends AbstractAuthenticator
         return new JsonResponse(
             [
                 'error' => [
-                    'code'       => Response::HTTP_UNAUTHORIZED,
+                    'code' => Response::HTTP_UNAUTHORIZED,
                     'error_code' => ErrorCode::INVALID_CREDENTIALS,
-                    'message'    => 'Invalid credentials.',
+                    'message' => 'Invalid credentials.',
                 ],
             ],
             Response::HTTP_UNAUTHORIZED,
         );
-
     }
 }

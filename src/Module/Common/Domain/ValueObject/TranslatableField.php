@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Module\Common\Domain\ValueObject;
 
 use App\Module\Common\Domain\Enum\Locale;
@@ -9,8 +11,7 @@ class TranslatableField implements JsonSerializable
 {
     public function __construct(
         private array $translations = [],
-    )
-    {
+    ) {
     }
 
     public function get(string $locale): ?string

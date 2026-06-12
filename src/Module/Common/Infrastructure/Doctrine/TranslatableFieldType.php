@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Module\Common\Infrastructure\Doctrine;
 
 use App\Module\Common\Domain\ValueObject\TranslatableField;
@@ -13,6 +15,7 @@ class TranslatableFieldType extends JsonType
     public function convertToPHPValue($value, AbstractPlatform $platform): TranslatableField
     {
         $data = parent::convertToPHPValue($value, $platform);
+
         return TranslatableField::fromArray($data);
     }
 

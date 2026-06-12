@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-
 namespace App\Module\Common\Domain\Exception;
 
 use App\Module\Common\Domain\Enum\ErrorCode;
+use Exception;
 
-class ResourceNotFoundException extends \Exception
+class ResourceNotFoundException extends Exception
 {
     final public static function getStatusCode(): int
     {
@@ -19,9 +19,8 @@ class ResourceNotFoundException extends \Exception
         return ErrorCode::NOT_FOUND->value;
     }
 
-
     /**
-     * Array with helpful data that will be passed to response
+     * Array with helpful data that will be passed to response.
      *
      * @return array<string, mixed>
      */
@@ -31,7 +30,7 @@ class ResourceNotFoundException extends \Exception
     }
 
     /**
-     * Example of public context for API documentation
+     * Example of public context for API documentation.
      *
      * @return array<string, mixed>
      */

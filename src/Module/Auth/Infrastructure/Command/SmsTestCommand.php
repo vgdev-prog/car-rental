@@ -15,8 +15,7 @@ class SmsTestCommand
 {
     public function __construct(
         private TexterInterface $texter,
-    )
-    {
+    ) {
     }
 
     public function __invoke(SymfonyStyle $io): int
@@ -27,6 +26,7 @@ class SmsTestCommand
         $this->texter->send($sms);
 
         $io->info('Sms sent - check Maildev: http://localhost:10800');
+
         return Command::SUCCESS;
     }
 }

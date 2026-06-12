@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Module\Auth\Infrastructure\Doctrine;
 
 use App\Module\Auth\Domain\ValueObject\Email;
@@ -15,18 +14,19 @@ final class EmailType extends StringType
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?Email
     {
-        if ($value === null) {
+        if (null === $value) {
             return null;
         }
 
-       return Email::fromString($value);
+        return Email::fromString($value);
     }
 
     public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
     {
-        if ($value === null) {
+        if (null === $value) {
             return null;
         }
+
         return (string) $value;
     }
 

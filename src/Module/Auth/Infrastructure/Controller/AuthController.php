@@ -24,22 +24,21 @@ class AuthController extends AbstractController
         return new Response('Authorization');
     }
 
-    #[Route("/login-by-phone", name: 'login-by-phone', methods: ['POST'])]
+    #[Route('/login-by-phone', name: 'login-by-phone', methods: ['POST'])]
     public function loginByPhone(#[MapRequestPayload] LoginUserByPhoneDTO $request, LoginByPhoneHandler $handler): JsonResponse
     {
         $context = $request->toCommand();
         $user = $handler->handle($context);
 
         return new JsonResponse(CodeSendResource::make($user));
-
     }
 
-    #[Route("/me", name: 'me', methods: ['GET'])]
+    #[Route('/me', name: 'me', methods: ['GET'])]
     public function authUser(#[CurrentUser] User $user): JsonResponse
     {
         return new JsonResponse([
             'user' => UserResource::make($user),
-            'message' => 'You are logged in'
+            'message' => 'You are logged in',
         ]);
     }
 }

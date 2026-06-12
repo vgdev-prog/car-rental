@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Module\Common\Infrastructure\Resource;
 
-
 use Doctrine\ORM\Tools\Pagination\Paginator;
-
+use LogicException;
 
 class PaginationMetadataResource
 {
@@ -19,8 +20,8 @@ class PaginationMetadataResource
 
     /**
      * @template TEntity of object
+     *
      * @param Paginator<TEntity> $paginator
-     * @return self
      */
     public static function makeFromPaginator(Paginator $paginator): self
     {
@@ -29,20 +30,19 @@ class PaginationMetadataResource
         $offset = $paginator->getQuery()->getFirstResult();
 
         if (!$perPage) {
-            throw new \LogicException('Pagination metadata requires at least one per page.');
+            throw new LogicException('Pagination metadata requires at least one per page.');
         }
 
         if (!$offset) {
-            throw new \LogicException('Pagination metadata requires at least one offset.');
+            throw new LogicException('Pagination metadata requires at least one offset.');
         }
 
         $resource = new self();
-        $resource->total =  $total;
-        $resource->per_page =  $perPage;
+        $resource->total = $total;
+        $resource->per_page = $perPage;
         $resource->current_page = floor($offset / $perPage) + 1;
         $resource->last_page = (int) ceil($total / $perPage);
 
         return $resource;
     }
-
 }

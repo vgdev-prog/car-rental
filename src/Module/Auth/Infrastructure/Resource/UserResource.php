@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-
 namespace App\Module\Auth\Infrastructure\Resource;
 
 use App\Module\Auth\Domain\Entity\User;
-use Symfony\Component\Security\Core\User\UserInterface;
+use JsonSerializable;
 
-class UserResource implements \JsonSerializable
+class UserResource implements JsonSerializable
 {
     public ?int $id;
 
@@ -35,12 +34,10 @@ class UserResource implements \JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'id'              => $this->id,
-            'email'           => $this->email,
-            'roles'           => $this->roles,
-            'phone'           => $this->phone,
+            'id' => $this->id,
+            'email' => $this->email,
+            'roles' => $this->roles,
+            'phone' => $this->phone,
         ];
     }
-
-
 }

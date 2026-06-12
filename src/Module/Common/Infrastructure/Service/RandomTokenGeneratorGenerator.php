@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Module\Common\Infrastructure\Service;
 
 use App\Module\Common\Domain\Contract\TokenGeneratorInterface;
@@ -12,7 +11,6 @@ use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 #[AsAlias(TokenGeneratorInterface::class)]
 class RandomTokenGeneratorGenerator implements TokenGeneratorInterface
 {
-
     /**
      * @throws RandomException
      */

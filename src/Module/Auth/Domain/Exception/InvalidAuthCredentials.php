@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Module\Auth\Domain\Exception;
 
 use App\Module\Auth\Domain\Enum\ErrorCode;

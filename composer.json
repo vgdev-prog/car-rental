@@ -37,7 +37,8 @@
         "twig/extra-bundle": "^3.24"
     },
     "require-dev": {
-        "deptrac/deptrac": "^4.6",
+        "deptrac/deptrac": "^4.6.1",
+        "friendsofphp/php-cs-fixer": "^3.95.5",
         "phpstan/extension-installer": "^1.4.3",
         "phpstan/phpstan": "^2.2.2",
         "phpstan/phpstan-symfony": "^2.0.19",
@@ -94,7 +95,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "cs:check": "php-cs-fixer fix --dry-run --diff",
+        "cs:fix": "php-cs-fixer fix"
     },
     "repositories": [
         {

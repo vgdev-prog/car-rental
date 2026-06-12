@@ -1,6 +1,7 @@
 CONSOLE = php bin/console
 PHPSTAN = vendor/bin/phpstan
 DEPTRAC = vendor/bin/deptrac
+CSFIXER = vendor/bin/php-cs-fixer
 
 ## Docker
 up: ## Start all containers
@@ -20,6 +21,12 @@ cc: ## Clear cache
 ## Quality
 phpstan: ## Run static analysis
 	$(PHPSTAN) analyse
+
+cs: ## Check coding standards (no changes)
+	$(CSFIXER) fix --dry-run --diff
+
+cs-fix: ## Fix coding standards
+	$(CSFIXER) fix
 
 deptrac: deptrac-layers deptrac-modules ## Run all architecture boundary checks
 

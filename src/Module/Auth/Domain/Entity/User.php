@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Module\Auth\Domain\Entity;
 
 use App\Module\Auth\Domain\Enum\Role;
@@ -10,10 +12,10 @@ use App\Module\Auth\Infrastructure\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use phpDocumentor\Reflection\TypeResolver;
+use Doctrine\ORM\Mapping as ORM;
+use LogicException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'users')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -60,7 +62,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?DateTimeImmutable $emailApprovedAt = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $phoneApprovedAt = null;
+    private ?DateTimeImmutable $phoneApprovedAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $passwordResetToken = null;
@@ -73,7 +75,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Network::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $networks;
-
 
     private function __construct()
     {
@@ -118,15 +119,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUserIdentifier(): string
     {
         if (!$this->email || !$this->phone) {
-            throw new \LogicException('User identifier is not set.');
+            throw new LogicException('User identifier is not set.');
         }
 
-        return  (string) $this->email ?: $this->phone;
+        return (string) $this->email ?: $this->phone;
     }
 
     public function changeEmail(Email $email): static
     {
         $this->email = $email;
+
         return $this;
     }
 
@@ -166,8 +168,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $tail = mb_substr($this->phone, -2);
         $hidden = max(0, mb_strlen($this->phone) - 6);
 
-        return $head . str_repeat('•', $hidden) . $tail;
-
+        return $head.str_repeat('•', $hidden).$tail;
     }
 
     public function getPhoneApprovedAt(): ?DateTimeImmutable
@@ -179,12 +180,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->phoneApprovedAt = new DateTimeImmutable();
         $this->status = Status::ACTIVE;
+
         return $this;
     }
 
     public function issueVerificationCode(string $code): static
     {
         $this->code = $code;
+
         return $this;
     }
 
@@ -192,7 +195,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->emailApprovedAt;
     }
-
 
     /**
      * @throws EmailAlreadyApprovedException
@@ -208,7 +210,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function isConfirmed(): bool
     {
-        return $this->emailApprovedAt !== null || $this->phoneApprovedAt !== null;
+        return null !== $this->emailApprovedAt || null !== $this->phoneApprovedAt;
     }
 
     public function requestPasswordReset(string $token, DateTimeImmutable $now): void
@@ -229,9 +231,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->passwordResetTokenExpiresAt = null;
     }
 
-
     /**
      * @return array<string>
+     *
      * @see UserInterface
      */
     public function getRoles(): array
@@ -239,9 +241,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_map(static fn (Role $role) => $role->value, $this->roles);
     }
 
-    /**
-     * @param Role $role
-     */
     public function grantRole(Role $role): static
     {
         if (!in_array($role, $this->roles, true)) {
@@ -254,12 +253,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function revokeRole(Role $role): static
     {
         $this->roles = array_values(
-            array_filter($this->roles, static fn(Role $userRole) => $userRole !== $role)
+            array_filter($this->roles, static fn (Role $userRole) => $userRole !== $role)
         );
 
         return $this;
     }
-
 
     /**
      * @return Collection<int, Session>
@@ -282,8 +280,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function __serialize(): array
     {
-        $data = (array)$this;
-        $data["\0" . self::class . "\0password"] = hash('crc32c', $this->password ?? '');
+        $data = (array) $this;
+        $data["\0".self::class."\0password"] = hash('crc32c', $this->password ?? '');
 
         return $data;
     }
