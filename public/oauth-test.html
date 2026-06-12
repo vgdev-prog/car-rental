@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>OAuth confirm tester</title>
+    <style>
+        body { font: 14px/1.5 system-ui, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 16px; }
+        h1 { font-size: 18px; }
+        textarea { width: 100%; box-sizing: border-box; min-height: 90px; font-family: monospace; font-size: 12px; }
+        label { display: block; margin: 14px 0 4px; font-weight: 600; }
+        select, button { font-size: 14px; padding: 6px 10px; }
+        button { margin-top: 16px; cursor: pointer; }
+        pre { background: #f4f4f5; padding: 12px; border-radius: 6px; overflow: auto; white-space: pre-wrap; word-break: break-all; }
+        .ok { color: #15803d; } .err { color: #b91c1c; }
+    </style>
+</head>
+<body>
+    <h1>OAuth confirm tester</h1>
+    <p>Вставь полный callback-URL (из адресной строки после согласия) — страница сама вытащит <code>code</code> и <code>state</code> и отправит POST на <code>/confirm</code>.</p>
+
+    <label for="provider">Провайдер</label>
+    <select id="provider">
+        <option value="google">google</option>
+        <option value="facebook">facebook</option>
+        <option value="linkedin">linkedin</option>
+    </select>
+
+    <label for="url">Callback URL</label>
+    <textarea id="url" placeholder="http://localhost:3000/auth/google/callback?code=...&state=..."></textarea>
+
+    <button id="send">Отправить на /confirm</button>
+
+    <label>Ответ</label>
+    <pre id="out">—</pre>
+
+    <script>
+        const API_BASE = 'https://localhost:8000/api/v1/auth';
+
+        document.getElementById('send').addEventListener('click', async () => {
+            const out = document.getElementById('out');
+            const provider = document.getElementById('provider').value;
+            const raw = document.getElementById('url').value.trim();
+
+            let code, state;
+            try {
+                // URL сам декодирует %2F и прочее — никакого ручного escaping
+                const u = new URL(raw);
+                code = u.searchParams.get('code');
+                state = u.searchParams.get('state');
+            } catch {
+                out.textContent = 'Не похоже на URL. Вставь полный адрес из адресной строки.';
+                out.className = 'err';
+                return;
+            }
+
+            if (!code || !state) {
+                out.textContent = 'В URL нет code или state. Это точно callback, а не authorize-ссылка?';
+                out.className = 'err';
+                return;
+            }
+
+            out.textContent = 'Отправляю…';
+            out.className = '';
+
+            try {
+                const res = await fetch(`${API_BASE}/oauth/${provider}/confirm`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code, state }),
+                });
+                const text = await res.text();
+                let pretty = text;
+                try { pretty = JSON.stringify(JSON.parse(text), null, 2); } catch {}
+                out.textContent = `HTTP ${res.status}\n\n${pretty}`;
+                out.className = res.ok ? 'ok' : 'err';
+            } catch (e) {
+                out.textContent = 'Сетевая ошибка: ' + e.message + '\n(самоподписанный https? открой страницу по https://localhost:8000/oauth-test.html, чтобы сертификат совпал)';
+                out.className = 'err';
+            }
+        });
+    </script>
+</body>
+</html>

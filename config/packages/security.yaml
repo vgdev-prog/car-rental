@@ -9,7 +9,6 @@ security:
         app_user_provider:
             entity:
                 class: App\Module\Auth\Domain\Entity\User
-                property: email
 
     firewalls:
         dev:
@@ -24,10 +23,10 @@ security:
                 token_handler: App\Module\Auth\Infrastructure\Security\ApiTokenHandler
             custom_authenticators:
                 - App\Module\Auth\Infrastructure\Security\ApiAuthenticator
+                - App\Module\Auth\Infrastructure\Security\LoginCodeAuthenticator
             login_throttling:
                 max_attempts: 5
-                interval: '15 minutes'
-
+                interval: '5 minutes'
 
 
 

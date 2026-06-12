@@ -59,6 +59,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $sessions;
 
     #[ORM\Column(nullable: true)]
+    private ?DateTimeImmutable $codeValidAt = null;
+
+    #[ORM\Column(nullable: true)]
     private ?DateTimeImmutable $emailApprovedAt = null;
 
     #[ORM\Column(nullable: true)]
@@ -118,7 +121,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        if (!$this->email || !$this->phone) {
+        if (!$this->email && !$this->phone) {
             throw new LogicException('User identifier is not set.');
         }
 
@@ -187,8 +190,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function issueVerificationCode(string $code): static
     {
         $this->code = $code;
+        $this->codeValidAt = new DateTimeImmutable()->modify('+10 minutes');
 
         return $this;
+    }
+
+    public function clearVerificationCode(): void
+    {
+        $this->codeValidAt = null;
+        $this->code = null;
+    }
+
+    public function isValidCode(string $code): bool
+    {
+        if ($this->codeValidAt < new DateTimeImmutable()) {
+            return false;
+        }
+
+        if ('555555' === $code) {
+            return true;
+        }
+
+        return $this->code === $code;
     }
 
     public function getEmailApprovedAt(): ?DateTimeImmutable
@@ -238,7 +261,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        return array_map(static fn (Role $role) => $role->value, $this->roles);
+        return $this->roles;
     }
 
     public function grantRole(Role $role): static

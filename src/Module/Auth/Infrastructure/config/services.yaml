@@ -6,8 +6,43 @@ services:
         autowire: true
         autoconfigure: true
 
+    _instanceof:
+        App\Module\Auth\Domain\Contracts\OAuthProviderInterface:
+            tags: [ 'app.oauth_provider' ]
+
+
     App\Module\Auth\:
         resource: '../../'
         exclude:
             - '../../Domain/Entity'
             - '../../Infrastructure/config'
+
+    League\OAuth2\Client\Provider\Google:
+        arguments:
+            $options:
+                clientId: '%env(GOOGLE_CLIENT_ID)%'
+                clientSecret: '%env(GOOGLE_CLIENT_SECRET)%'
+                redirectUri: '%env(REDIRECT_URI_GOOGLE)%'
+
+    League\OAuth2\Client\Provider\Facebook:
+        arguments:
+            $options:
+                clientId: '%env(FACEBOOK_CLIENT_ID)%'
+                clientSecret: '%env(FACEBOOK_CLIENT_SECRET)%'
+                redirectUri: '%env(REDIRECT_URI_FACEBOOK)%'
+                graphApiVersion: 'v19.0'
+
+    oauth.provider.linkedin:
+        class: League\OAuth2\Client\Provider\GenericProvider
+        arguments:
+            $options:
+                clientId: '%env(LINKED_CLIENT_ID)%'
+                clientSecret: '%env(LINKED_CLIENT_SECRET)%'
+                redirectUri: '%env(REDIRECT_URI_LINKED)%'
+                urlAuthorize: 'https://www.linkedin.com/oauth/v2/authorization'
+                urlAccessToken: 'https://www.linkedin.com/oauth/v2/accessToken'
+                urlResourceOwnerDetails: 'https://api.linkedin.com/v2/userinfo'
+                scopes: [ 'openid', 'profile', 'email' ]
+                scopeSeparator: ' '
+
+
