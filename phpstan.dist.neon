@@ -1,8 +1,50 @@
+# phpstan/extension-installer auto-registers phpstan-symfony and phpstan-doctrine,
+# so no manual `includes:` for them is needed.
 parameters:
     level: 8
     paths:
-        - bin/
-        - config/
-        - public/
-        - src/
-        - tests/
+        - bin
+        - config
+        - public
+        - src
+
+    # phpstan-symfony: lets PHPStan resolve service types from the compiled container,
+    # ->get() return types, console command argument/option types, etc.
+    # Warm the dev container first (it is generated on cache warmup): `make cc`.
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+
+    # phpstan-doctrine: checks entity mappings against property types and makes
+    # EntityRepository<T> generics concrete.
+    #
+    # For full power (DQL string validation, getRepository() concrete return types)
+    # point objectManagerLoader at a small bootstrap script that boots the kernel
+    # and returns the EntityManager, then uncomment the block below.
+    # See: https://github.com/phpstan/phpstan-doctrine#configuration
+    #
+    # doctrine:
+    #     objectManagerLoader: tests/object-manager.php
+
+    ignoreErrors:
+        # PHPDoc array value-type pedantry (`array` -> `array<...>`). No runtime
+        # impact, mostly in Infrastructure Resources/DTOs. Silenced project-wide.
+        - identifier: missingType.iterableValue
+
+        # MicroKernelTrait hooks: Symfony invokes them via reflection on kernel
+        # boot, so PHPStan's static call graph sees them as unused. False positive.
+        -
+            identifier: method.unused
+            path: src/Kernel.php
+
+        # Doctrine entities: identifier/nullable property types look "unused" to
+        # PHPStan because Doctrine hydrates them via reflection, not via userland
+        # assignment. Scoped to entity classes only, not services/value objects.
+        -
+            identifier: property.unusedType
+            path: src/Module/*/Domain/Entity/*
+
+        # Persisted columns written in PHP but only read back by Doctrine (SQL
+        # hydration), which PHPStan's static call graph can't see. Entities only.
+        -
+            identifier: property.onlyWritten
+            path: src/Module/*/Domain/Entity/*

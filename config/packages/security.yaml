@@ -5,27 +5,36 @@ security:
 
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory: { memory: null }
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Module\Auth\Domain\Entity\User
 
     firewalls:
         dev:
             # Ensure dev tools and static assets are always allowed
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
-        main:
-            lazy: true
-            provider: users_in_memory
+        api:
+            pattern: ^/api
+            stateless: true
+            provider: app_user_provider
+            access_token:
+                token_handler: App\Module\Auth\Infrastructure\Security\ApiTokenHandler
+            custom_authenticators:
+                - App\Module\Auth\Infrastructure\Security\ApiAuthenticator
+                - App\Module\Auth\Infrastructure\Security\LoginCodeAuthenticator
+            login_throttling:
+                max_attempts: 5
+                interval: '5 minutes'
 
-            # Activate different ways to authenticate:
-            # https://symfony.com/doc/current/security.html#the-firewall
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
 
     # Note: Only the *first* matching rule is applied
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/v1/auth,    roles: PUBLIC_ACCESS }
+        - { path: ^/api,            roles: IS_AUTHENTICATED_FULLY }
+
 
 when@test:
     security:

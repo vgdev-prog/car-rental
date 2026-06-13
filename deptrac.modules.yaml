@@ -1,0 +1,19 @@
+# Module isolation: a feature module may depend only on Common (the shared kernel),
+# never on another feature module's internals. Cross-module talk goes through
+# Common contracts/DTOs. Add a layer + a ruleset line for each new module.
+deptrac:
+  paths:
+    - ./src
+  layers:
+    - name: Auth
+      collectors:
+        - type: directory
+          value: src/Module/Auth/.*
+    - name: Common
+      collectors:
+        - type: directory
+          value: src/Module/Common/.*
+  ruleset:
+    Auth:
+      - Common
+    Common: ~

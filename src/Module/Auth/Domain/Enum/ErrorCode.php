@@ -1,0 +1,16 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Module\Auth\Domain\Enum;
+
+enum ErrorCode: string
+{
+    case INVALID_MAIL_FORMAT = 'INVALID_MAIL_FORMAT';
+    case INVALID_CREDENTIALS = 'INVALID_CREDENTIALS';
+    case USER_NOT_FOUND = 'USER_NOT_FOUND';
+    case USER_NOT_CONFIRMED = 'USER_NOT_CONFIRMED';
+    case EMAIL_ALREADY_APPROVED = 'EMAIL_ALREADY_APPROVED';
+    case CANNOT_SEND_WITHOUT_PHONE = 'CANNOT_SEND_WITHOUT_PHONE';
+    case INVALID_OAUTH_STATE = 'INVALID_OAUTH_STATE';
+}

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Module\Common\Application\Service;
 
 use App\Module\Common\Domain\Enum\Locale;

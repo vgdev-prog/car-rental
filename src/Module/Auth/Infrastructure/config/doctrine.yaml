@@ -1,4 +1,12 @@
 doctrine:
+    dbal:
+        types:
+            email: App\Module\Auth\Infrastructure\Doctrine\EmailType
     orm:
         mappings:
-
+            Auth:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Module/Auth/Domain/Entity'
+                prefix: 'App\Module\Auth\Domain\Entity'
+                alias: Auth

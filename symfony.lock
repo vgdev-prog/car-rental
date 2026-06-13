@@ -1,4 +1,16 @@
 {
+    "deptrac/deptrac": {
+        "version": "4.6",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "3.0",
+            "ref": "05ab8813714080c7bc915cb10c780e6cfdbdb991"
+        },
+        "files": [
+            "deptrac.yaml"
+        ]
+    },
     "doctrine/deprecations": {
         "version": "1.1",
         "recipe": {
@@ -35,6 +47,18 @@
             "migrations/.gitignore"
         ]
     },
+    "friendsofphp/php-cs-fixer": {
+        "version": "3.95",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "3.39",
+            "ref": "97aaf9026490db73b86c23d49e5774bc89d2b232"
+        },
+        "files": [
+            ".php-cs-fixer.dist.php"
+        ]
+    },
     "phpstan/phpstan": {
         "version": "2.1",
         "recipe": {
@@ -45,6 +69,21 @@
         },
         "files": [
             "phpstan.dist.neon"
+        ]
+    },
+    "phpunit/phpunit": {
+        "version": "13.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "11.1",
+            "ref": "ca0bc067abfb40a8de1b2561b96cbfc2b833c314"
+        },
+        "files": [
+            ".env.test",
+            "phpunit.dist.xml",
+            "tests/bootstrap.php",
+            "bin/phpunit"
         ]
     },
     "stof/doctrine-extensions-bundle": {
@@ -98,6 +137,15 @@
             "config/packages/debug.yaml"
         ]
     },
+    "symfony/fake-sms-notifier": {
+        "version": "7.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.3",
+            "ref": "8d38ccf27c937259e93a07b889d21a35d2f1cae0"
+        }
+    },
     "symfony/flex": {
         "version": "2.10",
         "recipe": {
@@ -131,6 +179,18 @@
             ".editorconfig"
         ]
     },
+    "symfony/mailer": {
+        "version": "7.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "4.3",
+            "ref": "09051cfde49476e3c12cd3a0e44289ace1c75a4f"
+        },
+        "files": [
+            "config/packages/mailer.yaml"
+        ]
+    },
     "symfony/maker-bundle": {
         "version": "1.67",
         "recipe": {
@@ -150,6 +210,18 @@
         },
         "files": [
             "config/packages/monolog.yaml"
+        ]
+    },
+    "symfony/notifier": {
+        "version": "7.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.0",
+            "ref": "178877daf79d2dbd62129dd03612cb1a2cb407cc"
+        },
+        "files": [
+            "config/packages/notifier.yaml"
         ]
     },
     "symfony/property-info": {
@@ -202,6 +274,15 @@
             "config/packages/twig.yaml",
             "templates/base.html.twig"
         ]
+    },
+    "symfony/twilio-notifier": {
+        "version": "7.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.0",
+            "ref": "295c79af6b41fb4b6aa18f6f63eaa02051ebba5b"
+        }
     },
     "symfony/validator": {
         "version": "7.4",

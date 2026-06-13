@@ -1,5 +1,9 @@
 twig:
     file_name_pattern: '*.twig'
+    paths:
+        '%kernel.project_dir%/src/Module/Auth/Infrastructure/mail': Auth
+        '%kernel.project_dir%/src/Module/Common/Infrastructure/templates': Common
+
 
 when@test:
     twig:
