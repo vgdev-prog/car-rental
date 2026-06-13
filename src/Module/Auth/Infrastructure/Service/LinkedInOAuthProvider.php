@@ -12,6 +12,7 @@ use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
 use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\Request;
 
 #[AsTaggedItem(index: 'LINKEDIN')]
 readonly class LinkedInOAuthProvider implements OAuthProviderInterface
@@ -33,6 +34,7 @@ readonly class LinkedInOAuthProvider implements OAuthProviderInterface
      */
     public function authorize(string $code): NetworkUser
     {
+
         $token = $this->provider->getAccessToken('authorization_code', ['code' => $code]);
         $claims = $this->provider->getResourceOwner($token);
 

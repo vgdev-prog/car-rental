@@ -9,11 +9,11 @@ use App\Module\Auth\Domain\Enum\OAuthProvider;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutowireLocator;
 
-class GenerateOAuthUrlHandler
+readonly class GenerateOAuthUrlHandler
 {
     public function __construct(
         #[AutowireLocator('app.oauth_provider')]
-        private readonly ContainerInterface $providers,
+        private ContainerInterface $providers,
     ) {
     }
 

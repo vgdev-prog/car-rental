@@ -6,6 +6,7 @@ namespace App\Module\Common\Infrastructure\Listener;
 
 use App\Module\Common\Domain\Enum\ErrorCode;
 use App\Module\Common\Domain\Exception\AbstractDomainException;
+use App\Module\Common\Domain\Exception\AbstractUnauthorizedException;
 use App\Module\Common\Domain\Exception\ResourceNotFoundException;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -60,6 +61,13 @@ final readonly class ApiExceptionListener implements EventSubscriberInterface
 
         [$status, $code, $message, $context] = match (true) {
             $e instanceof AbstractDomainException => [
+                $e::getStatusCode(),
+                $e::getDomainErrorCode(),
+                $e->getMessage(),
+                $e->getPublicContext(),
+            ],
+
+            $e instanceof AbstractUnauthorizedException => [
                 $e::getStatusCode(),
                 $e::getDomainErrorCode(),
                 $e->getMessage(),

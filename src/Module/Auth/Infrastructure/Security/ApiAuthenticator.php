@@ -79,7 +79,13 @@ class ApiAuthenticator extends AbstractAuthenticator
         $context = new LoginByMailCommand($user->getEmail());
         $data = $this->loginByMailHandler->handle($context);
 
-        return new JsonResponse(AuthenticatedResource::make($data->session->getToken(), $data->expiresAt, $user));
+        return new JsonResponse(
+            AuthenticatedResource::make(
+                token: $data->session->getToken(),
+                expiresAt: $data->expiresAt,
+                user: $user
+            )
+        );
     }
 
     /**

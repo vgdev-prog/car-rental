@@ -10,13 +10,18 @@ use App\Module\Auth\Application\UseCase\Input\ConfirmLoginOAuthCommand;
 use App\Module\Auth\Application\UseCase\LoginByPhoneHandler;
 use App\Module\Auth\Domain\Entity\User;
 use App\Module\Auth\Domain\Enum\OAuthProvider;
-use App\Module\Auth\Domain\Repository\UserRepositoryInterface;
+use App\Module\Auth\Domain\Exception\EmailAlreadyApprovedException;
+use App\Module\Auth\Domain\Exception\InvalidOAuthStateException;
 use App\Module\Auth\Infrastructure\Request\LoginUserByPhoneDTO;
 use App\Module\Auth\Infrastructure\Request\OAuthConfirmLoginDTO;
+use App\Module\Auth\Infrastructure\Resource\AuthenticatedResource;
 use App\Module\Auth\Infrastructure\Resource\CodeSendResource;
 use App\Module\Auth\Infrastructure\Resource\UserResource;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Cache\InvalidArgumentException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Random\RandomException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +33,6 @@ class AuthController extends AbstractController
 {
     public function __construct(
         private readonly CacheItemPoolInterface $oauthState,
-        private readonly UserRepositoryInterface $userRepository,
     ) {
     }
 
@@ -52,25 +56,36 @@ class AuthController extends AbstractController
     {
     }
 
+    /**
+     * @throws RandomException
+     * @throws InvalidArgumentException
+     */
     #[Route('/oauth/{provider}/url', name: 'oauth-google', methods: ['GET'])]
-    public function authByGoogleOAuth(string $provider, GenerateOAuthUrlHandler $handler): JsonResponse
+    public function generateOAuthUrl(string $provider, GenerateOAuthUrlHandler $handler): JsonResponse
     {
-        $provider = OAuthProvider::tryFrom($provider);
+        $oAuthProvider = OAuthProvider::tryFrom($provider);
+
         $state = bin2hex(random_bytes(16));
-        $item = $this->oauthState->getItem('oauth_state_'.$state);
+        $key = 'oauth_state_'.$state;
+
+        $item = $this->oauthState->getItem($key);
         $item->set(true);
         $this->oauthState->save($item);
 
         return new JsonResponse([
-            'url' => $handler->handle($provider, $state),
+            'url' => $handler->handle($oAuthProvider, $state),
         ]);
     }
 
     /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      * @throws InvalidArgumentException
+     * @throws InvalidOAuthStateException
+     * @throws EmailAlreadyApprovedException
      */
     #[Route('/oauth/{provider}/confirm', name: 'oauth-google-validate', methods: ['POST'])]
-    public function validateAuthGoogle(
+    public function confirmOAuth(
         #[MapRequestPayload] OAuthConfirmLoginDTO $dto,
         OAuthProvider $provider,
         ConfirmOAuthUrlHandler $handler,
@@ -79,17 +94,20 @@ class AuthController extends AbstractController
         $item = $this->oauthState->getItem($key);
 
         if (!$item->isHit()) {
-            return new JsonResponse(['error' => 'invalid_state'], Response::HTTP_UNAUTHORIZED);
+            throw new InvalidOAuthStateException($item->getKey());
         }
 
         $this->oauthState->deleteItem($key);
 
         $context = new ConfirmLoginOAuthCommand($dto->code, $provider);
-        $handler->handle($context);
+        $issue = $handler->handle($context);
 
-        return new JsonResponse([
-            'data' => '',
-        ]);
+        return new JsonResponse(
+            AuthenticatedResource::make(
+                token: $issue->session->getToken(),
+                expiresAt: $issue->expiresAt,
+                user: $issue->session->getUser())
+        );
     }
 
     #[Route('/me', name: 'me', methods: ['GET'])]
@@ -97,7 +115,6 @@ class AuthController extends AbstractController
     {
         return new JsonResponse([
             'user' => UserResource::make($user),
-            'message' => 'You are logged in',
         ]);
     }
 }

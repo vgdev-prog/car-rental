@@ -86,11 +86,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->networks = new ArrayCollection();
     }
 
-    public static function createFromEmail(Email $email, string $password): self
+    public static function createFromEmail(Email $email, ?string $password): self
     {
         $user = new self();
         $user->email = $email;
-        $user->password = $password;
+        if ($password) {
+            $user->password = $password;
+        }
 
         return $user;
     }
@@ -296,6 +298,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getNetworks(): Collection
     {
         return $this->networks;
+    }
+
+    public function connectNetwork(Network $network): void
+    {
+        foreach ($this->networks as $existingNetwork) {
+            if ($existingNetwork->matches($network->getProvider(), $network->getProviderUserId())) {
+                return;
+            }
+        }
+
+        $this->networks->add($network);
+        $network->assignToUser($this);
     }
 
     /**

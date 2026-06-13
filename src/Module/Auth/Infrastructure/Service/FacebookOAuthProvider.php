@@ -36,6 +36,7 @@ readonly class FacebookOAuthProvider implements OAuthProviderInterface
         $token = $this->provider->getAccessToken('authorization_code', [
             'code' => $code,
         ]);
+
         if (!$token instanceof AccessToken) {
             throw new LogicException('ffksdf');
         }

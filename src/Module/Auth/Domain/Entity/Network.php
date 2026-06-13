@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Module\Auth\Domain\Entity;
 
 use App\Module\Auth\Domain\Enum\OAuthProvider;
+use App\Module\Auth\Domain\ValueObject\NetworkUser;
 use App\Module\Auth\Infrastructure\Repository\NetworkRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -34,15 +35,22 @@ class Network
     private User $user;
 
     public function __construct(
-        string $providerUserId,
-        string $email,
-        OAuthProvider $provider,
-        User $user,
     ) {
-        $this->provider = $provider;
-        $this->email = $email;
-        $this->providerUserId = $providerUserId;
         $this->connectedAt = new DateTimeImmutable();
+    }
+
+    public static function createNetwork(NetworkUser $user): self
+    {
+        $network = new self();
+        $network->provider = $user->provider;
+        $network->providerUserId = $user->identity;
+        $network->email = $user->email;
+
+        return $network;
+    }
+
+    public function assignToUser(User $user): void
+    {
         $this->user = $user;
     }
 
